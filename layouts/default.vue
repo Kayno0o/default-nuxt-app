@@ -14,7 +14,7 @@ useHead({
 <template>
   <div class="bg-dark text-light min-h-screen w-full transition-colors">
     <IncHeader />
-    <div class="container mx-auto py-4">
+    <div class="container py-4">
       <slot />
     </div>
   </div>

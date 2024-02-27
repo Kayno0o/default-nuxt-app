@@ -23,6 +23,10 @@ export default {
         title: ['Anta', 'sans-serif'],
       },
     },
+    container: {
+      center: true,
+      padding: '2rem',
+    },
   },
   plugins: [iconsPlugin(), dynamicIconsPlugin()],
 }
