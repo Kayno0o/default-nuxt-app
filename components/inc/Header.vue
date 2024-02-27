@@ -24,7 +24,10 @@ import ThemeToggle from '~/components/ThemeToggle.vue'
       </nav>
       <div class="flex gap-2">
         <ThemeToggle />
-        /&gt;
+
+        <span class="font-bold">
+          /&gt;
+        </span>
       </div>
     </div>
   </div>
