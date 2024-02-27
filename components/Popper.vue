@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import * as Popper from '@popperjs/core'
+import { twMerge } from 'tailwind-merge'
 
 const props = defineProps<{
   content?: string
@@ -20,6 +21,11 @@ const contentElement = ref<HTMLElement>()
 const popper = ref<Popper.Instance | null>(null)
 const show = ref(false)
 const enabled = ref(false)
+
+const classes = computed(() => twMerge(
+  props.truncate ? 'truncate' : '',
+  props.class,
+))
 
 watch([activatorElement, contentElement], () => {
   if (activatorElement.value) {
@@ -63,15 +69,15 @@ function destroyPopper() {
   <component
     :is="activatorIs ?? 'span'"
     ref="activatorElement"
-    :class="[truncate ? 'text-truncate' : '', $props.class]"
+    :class="classes"
     @mouseenter="createPopper"
     @mouseleave="destroyPopper"
   >
     <slot />
   </component>
 
-  <div v-show="show" ref="contentElement" class="popper">
-    <div class="px-3 py-1 bg-[#555]">
+  <div v-show="show" ref="contentElement">
+    <div class="bg-[#555] px-3 py-1">
       <slot name="content" />
       {{ content }}
     </div>
