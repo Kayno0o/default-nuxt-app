@@ -23,9 +23,12 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
+    "@eslint/eslintrc": "^3.0.2",
     "@iconify-json/mdi": "^1.1.64",
+    "@iconify-json/ph": "^1.1.11",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
+    "eslint-plugin-tailwindcss": "^3.14.3",
     "lint-staged": "^15.2.2",
     "postcss": "^8.4.35",
     "simple-git-hooks": "^2.9.0",
