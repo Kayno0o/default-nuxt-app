@@ -7,7 +7,8 @@ defineProps<{
 </script>
 
 <template>
-  <NuxtLink :to="to" class="text-light transition-colors border-b border-b-accent hover:text-accent">
+  <NuxtLink :to="to" class="group relative text-light transition-colors hover:text-accent">
     <slot />
+    <div class="absolute inset-x-0 top-full mx-auto h-[1px] w-2 bg-accent transition-all group-hover:w-full" />
   </NuxtLink>
 </template>
