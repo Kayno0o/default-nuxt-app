@@ -12,7 +12,7 @@ useHead({
 </script>
 
 <template>
-  <div class="bg-dark text-light min-h-screen w-full transition-colors">
+  <div class="min-h-screen w-full bg-dark text-light transition-colors">
     <IncHeader />
     <div class="container py-4">
       <slot />

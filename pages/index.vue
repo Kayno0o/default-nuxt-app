@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div class="flex gap-4 items-center">
+  <div class="flex items-center gap-4">
     Lorem ipsum.
   </div>
 </template>
