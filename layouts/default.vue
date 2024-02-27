@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { useDark } from '@vueuse/core'
+const isdark = useCookie<'dark' | 'light' | 'no-preference'>('dark-mode', { default: () => 'no-preference' })
 
-useDark({
-  attribute: 'data-theme',
-  initOnMounted: true,
-  initialValue: 'dark',
+if (isdark.value === 'no-preference')
+  isdark.value = usePreferredColorScheme().value
+
+useHead({
+  htmlAttrs: {
+    'data-theme': () => isdark.value === 'dark' ? 'dark' : 'light',
+  },
 })
 </script>
 
 <template>
-  <div class="bg-dark text-light min-h-screen w-full">
+  <div class="bg-dark text-light min-h-screen w-full transition-colors">
     <IncHeader />
-    <div class="container px-8 py-4 mx-auto">
+    <div class="container mx-auto py-4">
       <slot />
     </div>
   </div>

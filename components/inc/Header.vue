@@ -1,36 +1,38 @@
 <script setup lang="ts">
 import { useDark, useToggle } from '@vueuse/core'
 
-const isDark = useDark()
-const toggleDark = useToggle(isDark)
+const theme = useCookie('dark-mode')
+function toggleTheme() {
+  theme.value = theme.value === 'dark' ? 'light' : 'dark'
+}
 </script>
 
 <template>
-  <div class="border-b border-b-accent px-8 py-2 flex justify-between flex-wrap">
-    <h1 class="font-title text-lg">
-      &lt;Kayno0o/default-nuxt-app
-    </h1>
-    <nav>
-      <ul class="flex gap-4">
-        <li>
-          <BaseLink to="/">
-            Home
-          </BaseLink>
-        </li>
-        <li>
-          <BaseLink to="/404">
-            404
-          </BaseLink>
-        </li>
-      </ul>
-    </nav>
-    <div class="flex gap-2">
-      <client-only>
-        <BaseButton class="font-title p-1 aspect-square" rounded @click="toggleDark()">
-          <svg class="size-4 aspect-square" :class="isDark ? 'i-mdi-moon-and-stars' : 'i-mdi-weather-sunny'" />
+  <div class="border-b border-b-accent">
+    <div class="container flex py-2 justify-between flex-wrap">
+      <h1 class="font-title text-lg">
+        &lt;Kayno0o/default-nuxt-app
+      </h1>
+      <nav>
+        <ul class="flex gap-4">
+          <li>
+            <BaseLink to="/">
+              Home
+            </BaseLink>
+          </li>
+          <li>
+            <BaseLink to="/404">
+              404
+            </BaseLink>
+          </li>
+        </ul>
+      </nav>
+      <div class="flex gap-2">
+        <BaseButton class="font-title p-1 aspect-square" rounded @click="toggleTheme">
+          <svg class="size-4 aspect-square" :class="theme === 'dark' ? 'i-mdi-moon-and-stars' : 'i-mdi-weather-sunny'" />
         </BaseButton>
-      </client-only>
-      /&gt;
+        /&gt;
+      </div>
     </div>
   </div>
 </template>
