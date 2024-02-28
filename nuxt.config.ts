@@ -14,6 +14,10 @@ export default defineNuxtConfig({
     },
   },
 
+  runtimeConfig: {
+    apiUrl: process.env.API_URL,
+  },
+
   app: {
     head: {
       title: 'Kaynooo',
