@@ -16,6 +16,7 @@
     "@popperjs/core": "^2.11.8",
     "@vueuse/core": "^10.8.0",
     "@vueuse/nuxt": "^10.8.0",
+    "dayjs": "^1.11.10",
     "nuxt": "^3.10.3",
     "tailwind-merge": "^2.2.1",
     "ufo": "^1.4.0",
