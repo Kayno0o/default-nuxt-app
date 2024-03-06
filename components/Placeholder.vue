@@ -24,5 +24,5 @@ const url = computed(() => {
 </script>
 
 <template>
-  <img :src="url" alt="placeholder">
+  <img :src="url" :alt="`placeholder ${text ?? ''}`">
 </template>

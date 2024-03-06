@@ -13,6 +13,7 @@ useHead({
 
 <template>
   <div class="min-h-screen w-full bg-dark text-light transition-colors">
+    <ToastManager />
     <IncHeader />
     <div class="container py-4">
       <slot />
