@@ -12,7 +12,7 @@ useHead({
 </script>
 
 <template>
-  <div class="min-h-screen w-full bg-dark text-light transition-colors">
+  <div class="min-h-screen w-full bg-dark text-light transition-colors duration-300">
     <ToastManager />
     <IncHeader />
     <div class="container py-4">

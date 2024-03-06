@@ -12,9 +12,6 @@ export default {
     './error.vue',
   ],
   theme: {
-    transitionDuration: {
-      DEFAULT: '300ms',
-    },
     extend: {
       colors: {
         transparent: 'transparent',
