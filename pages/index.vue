@@ -6,14 +6,15 @@ const { addToast } = useToast()
 </script>
 
 <template>
-  <div class="flex items-center gap-4">
-    Lorem ipsum.
+  <BaseH1>Welcome to my portfolio</BaseH1>
+  <BaseH2>Welcome to my portfolio</BaseH2>
+  <BaseH3>Welcome to my portfolio</BaseH3>
+  <BaseH4>Welcome to my portfolio</BaseH4>
 
-    <BaseCard class="flex flex-col items-center gap-2">
-      Simple card
-      <BaseButton @click="addToast('test', getRandom(['success', 'warning', 'error']))">
-        Toast
-      </BaseButton>
-    </BaseCard>
-  </div>
+  <BaseCard class="flex w-fit flex-col items-center gap-2">
+    Simple card
+    <BaseButton @click="addToast('test', getRandom(['success', 'warning', 'error']))">
+      Toast
+    </BaseButton>
+  </BaseCard>
 </template>

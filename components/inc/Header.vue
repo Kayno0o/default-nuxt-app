@@ -1,5 +1,24 @@
 <script setup lang="ts">
 import ThemeToggle from '~/components/ThemeToggle.vue'
+
+const links: { url: string, text: string }[] = [
+  {
+    url: '/',
+    text: 'Home',
+  },
+  {
+    url: '/games',
+    text: 'Games',
+  },
+  {
+    url: '/l',
+    text: 'Links',
+  },
+  {
+    url: '/contact',
+    text: 'Contact',
+  },
+]
 </script>
 
 <template>
@@ -10,14 +29,9 @@ import ThemeToggle from '~/components/ThemeToggle.vue'
       </h1>
       <nav>
         <ul class="flex gap-4">
-          <li>
-            <BaseLink to="/">
-              Home
-            </BaseLink>
-          </li>
-          <li>
-            <BaseLink to="/404">
-              404
+          <li v-for="link in links" :key="link.text">
+            <BaseLink :to="link.url">
+              {{ link.text }}
             </BaseLink>
           </li>
         </ul>
