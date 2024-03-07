@@ -28,8 +28,8 @@
   "devDependencies": {
     "@antfu/eslint-config": "^2.6.4",
     "@eslint/eslintrc": "^3.0.2",
-    "@iconify-json/mdi": "^1.1.64",
     "@iconify-json/ph": "^1.1.11",
+    "@iconify-json/ri": "^1.1.20",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.57.0",
     "eslint-plugin-tailwindcss": "^3.14.3",
