@@ -65,7 +65,7 @@ export default function getElementBoundingBox(element: Element) {
   }
 
   return {
-    ...rect,
+    rect,
     innerRect,
     padding,
     margin,
