@@ -17,4 +17,7 @@ export default antfu({
   extends: [
     'plugin:tailwindcss/recommended',
   ],
+  rules: {
+    'tailwindcss/no-custom-classname': 'off',
+  },
 }))

@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <h2 class="font-bolder mb-3 text-3xl">
+  <h2 class="mb-3 text-3xl font-black">
     <slot />
   </h2>
 </template>
