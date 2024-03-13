@@ -1,43 +1,42 @@
 <script setup lang="ts">
 import type { TicTacToeGame, TicTacToeState } from '~/types/game'
+import { randomString } from '~/utils/textUtils'
 
-defineProps<{
+const props = defineProps<{
   game: TicTacToeGame
 }>()
 
 const emit = defineEmits<{
-  (e: 'send', type: string, value: any): void
+  (e: 'send', type: string, value?: any): void
 }>()
 
-const texts: { [key in TicTacToeState]: string } = {
-  pending: '',
+const texts = computed<{ [key in TicTacToeState]: string }>(() => ({
+  pending: `Player ${props.game.currentPlayer} turn`,
   tie: 'It\'s a tie !',
   p1: 'Player 1 won',
   p2: 'Player 2 won',
-}
+}))
+
+const uid = useCookie('uid', {
+  default: () => randomString(20, true),
+})
 </script>
 
 <template>
   <div class="flex flex-col items-center gap-3">
     <div class="grid grid-cols-[1fr_1fr] gap-8">
-      <div class="flex items-center gap-2">
-        Player 1:
-        <GameUser v-if="game.p1" :user="game.p1" />
-        <div v-else>
-          <BaseButton @click="emit('send', 'join', 1)">
-            Join
-          </BaseButton>
-        </div>
-      </div>
-      <div class="flex items-center gap-2">
-        Player 2:
-        <GameUser v-if="game.p2" :user="game.p2" />
-        <div v-else>
-          <BaseButton @click="emit('send', 'join', 2)">
-            Join
-          </BaseButton>
-        </div>
-      </div>
+      <GameTicTacToePlayerSelect
+        num="1"
+        :user="game.p1"
+        @join="emit('send', 'join', 1)"
+        @quit="emit('send', 'quit')"
+      />
+      <GameTicTacToePlayerSelect
+        num="2"
+        :user="game.p2"
+        @join="emit('send', 'join', 2)"
+        @quit="emit('send', 'quit')"
+      />
     </div>
 
     <div class="grid aspect-square size-fit grid-cols-3 gap-1">
@@ -51,7 +50,16 @@ const texts: { [key in TicTacToeState]: string } = {
       </div>
     </div>
 
-    {{ texts[game.state] }}
+    <p class="font-black">
+      {{ texts[game.state] }}
+    </p>
+
+    <BaseButton
+      v-if="(game.p1?.id === uid || game.p2?.id === uid) && game.state !== 'pending'"
+      @click="emit('send', 'restart')"
+    >
+      Restart game
+    </BaseButton>
   </div>
 </template>
 
