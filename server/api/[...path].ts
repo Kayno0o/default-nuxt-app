@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   if (!event.context.params)
     throw createError({ statusCode: 404, statusMessage: 'Error in url not found' })
 
-  return proxyRequest(event, withQuery(joinURL(config.apiUrl, event.context.params.path), getQuery(event)), {
+  return proxyRequest(event, withQuery(joinURL(config.public.apiUrl, event.context.params.path), getQuery(event)), {
     headers: {
       Accept: 'application/ld+json',
     },

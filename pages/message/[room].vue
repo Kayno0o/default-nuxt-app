@@ -4,6 +4,11 @@ import { useRoute } from 'vue-router'
 import { randomString } from '~/utils/textUtils'
 
 const route = useRoute()
+const config = useRuntimeConfig()
+
+const token = useCookie('token', {
+  default: () => randomString(40, true),
+})
 const uid = useCookie('uid', {
   default: () => randomString(20, true),
 })
@@ -12,7 +17,7 @@ const username = useCookie('username')
 const messages = ref<string[]>([])
 
 const { status, send } = useWebSocket(
-  () => `ws://localhost:13000/ws/message/${route.params.room}?uid=${uid.value}`,
+  () => `${config.public.wsUrl}/message/${route.params.room}?token=${token.value}&uid=${uid.value}`,
   {
     onMessage(ws, event) {
       messages.value.push(event.data)

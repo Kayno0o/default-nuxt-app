@@ -5,6 +5,8 @@ import type { TicTacToeGame } from '~/types/game'
 import { randomString } from '~/utils/textUtils'
 
 const route = useRoute()
+const config = useRuntimeConfig()
+
 const token = useCookie('token', {
   default: () => randomString(40, true),
 })
@@ -16,7 +18,7 @@ const username = useCookie('username')
 const game = ref<TicTacToeGame>()
 
 const { status, send } = useWebSocket(
-  () => `ws://localhost:13000/ws/tictactoe/${route.params.room}?token=${token.value}&uid=${uid.value}`,
+  () => `${config.public.wsUrl}/tictactoe/${route.params.room}?token=${token.value}&uid=${uid.value}`,
   {
     onMessage(ws, event) {
       game.value = JSON.parse(event.data)
