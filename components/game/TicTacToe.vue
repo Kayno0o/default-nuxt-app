@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useWsPlayer from '~/composables/useWsPlayer';
-import type { TicTacToeState, WsTicTacToeGame } from '~/types/game';
+import useWsPlayer from '~/composables/useWsPlayer'
+import type { TicTacToeState, WsTicTacToeGame } from '~/types/game'
 
 const props = defineProps<{
   game: WsTicTacToeGame
@@ -20,6 +20,7 @@ const texts = computed<{ [key in TicTacToeState]: string }>(() => ({
 }))
 
 const player = useWsPlayer()
+const players = computed(() => [props.game.p1, props.game.p2])
 
 watch([() => props.game.p1?.color], () => {
   if (wrapper.value && props.game.p1?.color)
@@ -33,22 +34,22 @@ watch([() => props.game.p2?.color], () => {
 </script>
 
 <template>
-  <div ref="wrapper" class="grid gap-4">
-    <div class="grid grid-cols-2">
-      <div v-for="i in 2" :key="i">
-        Player {{ i }}:
-        <div v-if="game[`p${i}`]" class="grid items-center gap-2">
-          <GameUsername :user="game[`p${i}`]" />
-          <BaseButton v-if="game[`p${i}`].id === player.id" @click="emit('send', 'quit', i)">
-            Quit
-          </BaseButton>
-        </div>
-        <div v-else-if="game.p1?.id !== player.id && game.p2?.id !== player.id">
-          <BaseButton @click="emit('send', 'join', i)">
-            Join
-          </BaseButton>
-        </div>
-      </div>
+  <div ref="wrapper" class="grid h-fit w-full max-w-72 place-items-center gap-4 px-2">
+    <div v-for="(p, i) in players" :key="i" class="grid h-7 w-full grid-flow-col items-center justify-between gap-2">
+      P{{ i + 1 }}:
+      <template v-if="p">
+        <GameUsername :user="p" />
+        <BaseButton v-if="p.id === player.id" class="ml-auto" @click="emit('send', 'quit', i)">
+          Quit
+        </BaseButton>
+      </template>
+      <BaseButton
+        v-else-if="game.p1?.id !== player.id && game.p2?.id !== player.id"
+        class="ml-auto"
+        @click="emit('send', 'join', i + 1)"
+      >
+        Join
+      </BaseButton>
     </div>
 
     <div class="grid aspect-square size-fit grid-cols-3 gap-1">
@@ -63,10 +64,11 @@ watch([() => props.game.p2?.color], () => {
     </div>
 
     <div class="text-center font-black">
-      {{ texts[game.state] }}
+      <p>{{ texts[game.state] }}</p>
 
       <BaseButton
         v-if="(game.p1?.id === player.id || game.p2?.id === player.id) && game.state !== 'pending'"
+        class="mt-3"
         @click="emit('send', 'restart')"
       >
         Restart game

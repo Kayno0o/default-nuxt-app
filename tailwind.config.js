@@ -20,7 +20,7 @@ export default {
         light: 'rgb(var(--light) / <alpha-value>)',
       },
       fontFamily: {
-        title: ['Anta', 'sans-serif'],
+        anta: ['Anta', 'sans-serif'],
       },
     },
     container: {
@@ -28,5 +28,25 @@ export default {
       padding: '2rem',
     },
   },
-  plugins: [iconsPlugin(), dynamicIconsPlugin()],
+  plugins: [
+    iconsPlugin(),
+    dynamicIconsPlugin(),
+    function ({ addUtilities }) {
+      const newUtilities = {
+        '.grid-auto-columns': {
+          gridAutoColumns: '1fr',
+        },
+        '.grid-auto-rows': {
+          gridAutoRows: '1fr',
+        },
+        '.grid-auto-columns-none': {
+          gridAutoColumns: 'unset',
+        },
+        '.grid-auto-rows-none': {
+          gridAutoRows: 'unset',
+        },
+      }
+      addUtilities(newUtilities, ['responsive', 'hover'])
+    },
+  ],
 }

@@ -15,7 +15,7 @@ export default function useWsRoom<U extends object>(
   const route = useRoute()
   const config = useRuntimeConfig()
 
-  const room = ref<WsRoom<U>>({ users: [], data: {} as any })
+  const room = ref<WsRoom<U>>({ users: [], data: {} as any, messages: [] })
   const user = useWsPlayer()
 
   const { resume, pause } = useIntervalFn(() => send('heartbeat', 'ping'), 10000, { immediate: false })

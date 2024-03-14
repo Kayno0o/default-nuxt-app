@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import type { InputAutocompleteType } from '~/types/input'
+
 defineProps<{
   id: string
   label: string
   type?: HTMLInputElement['type']
+  autocomplete?: InputAutocompleteType
 }>()
 const modelValue = defineModel<string | number | null>({ default: () => null })
 </script>
@@ -25,8 +28,8 @@ const modelValue = defineModel<string | number | null>({ default: () => null })
 </template>
 
 <style scoped>
-input {
-  @apply relative rounded-md border border-accent bg-dark px-2 py-1 text-light outline-2 outline-transparent ring-0;
+input, input:-internal-autofill-selected {
+  @apply relative rounded-md border border-accent bg-dark px-2 py-0.5 text-light outline-2 outline-transparent ring-0 !important;
   @apply transition-colors duration-300;
 }
 
