@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useWsPlayer from '~/composables/useWsPlayer'
-import type { TicTacToeState, WsTicTacToeGame } from '~/types/game'
+import useWsPlayer from '~/composables/useWsPlayer';
+import type { TicTacToeState, WsTicTacToeGame } from '~/types/game';
 
 const props = defineProps<{
   game: WsTicTacToeGame
@@ -33,8 +33,8 @@ watch([() => props.game.p2?.color], () => {
 </script>
 
 <template>
-  <div ref="wrapper" class="">
-    <div class="">
+  <div ref="wrapper" class="grid gap-4">
+    <div class="grid grid-cols-2">
       <div v-for="i in 2" :key="i">
         Player {{ i }}:
         <div v-if="game[`p${i}`]" class="grid items-center gap-2">
@@ -62,16 +62,16 @@ watch([() => props.game.p2?.color], () => {
       </div>
     </div>
 
-    <p class="font-black">
+    <div class="text-center font-black">
       {{ texts[game.state] }}
-    </p>
 
-    <BaseButton
-      v-if="(game.p1?.id === player.id || game.p2?.id === player.id) && game.state !== 'pending'"
-      @click="emit('send', 'restart')"
-    >
-      Restart game
-    </BaseButton>
+      <BaseButton
+        v-if="(game.p1?.id === player.id || game.p2?.id === player.id) && game.state !== 'pending'"
+        @click="emit('send', 'restart')"
+      >
+        Restart game
+      </BaseButton>
+    </div>
   </div>
 </template>
 

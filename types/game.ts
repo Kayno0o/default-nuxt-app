@@ -15,7 +15,7 @@ export interface WsTicTacToeGame {
   state: TicTacToeState
 }
 
-export interface WsRoom<T> {
+export interface WsRoom<T extends object> {
   users: Player[]
   data: T
 }

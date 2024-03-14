@@ -2,22 +2,16 @@
 import useWsPlayer from '~/composables/useWsPlayer'
 import type { Player } from '~/types/game'
 
-const props = defineProps<{
+defineProps<{
   user: Player
   noYou?: boolean
 }>()
 
-const player = useWsPlayer()
-
-const displayUser = computed(() => {
-  if (player.value.id === props.user.id)
-    return player.value
-  return props.user
-})
+const curr = useWsPlayer()
 </script>
 
 <template>
-  <div class="max-w-48 truncate font-bold" :style="`color: ${displayUser.color};`">
-    {{ displayUser.username }} <span v-if="player.id === user.id && !noYou">(you)</span>
+  <div class="max-w-48 truncate font-bold" :style="`color: ${user.color};`">
+    {{ user.username }} <span v-if="curr.id === user.id && !noYou">(you)</span>
   </div>
 </template>

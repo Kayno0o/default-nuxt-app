@@ -8,14 +8,14 @@ interface WsEvent {
   content: any
 }
 
-export default function useWsRoom<U, T extends WsRoom<U> = WsRoom<U>>(
+export default function useWsRoom<U extends object>(
   name: string,
   onMessage?: (ws: WebSocket, event: MessageEvent<any>) => void,
 ) {
   const route = useRoute()
   const config = useRuntimeConfig()
 
-  const room = ref<T>()
+  const room = ref<WsRoom<U>>({ users: [], data: {} as any })
   const user = useWsPlayer()
 
   const { resume, pause } = useIntervalFn(() => send('heartbeat', 'ping'), 10000, { immediate: false })
@@ -87,6 +87,12 @@ export default function useWsRoom<U, T extends WsRoom<U> = WsRoom<U>>(
   }
 
   onMounted(open)
+  watch([user, () => user.value.color, () => user.value.username], () => {
+    send('user', {
+      color: user.value.color,
+      username: user.value.username,
+    })
+  })
 
   return { data: room, update, user, send, status }
 }
