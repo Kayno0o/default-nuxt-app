@@ -3,7 +3,7 @@ import useWsPlayer from '~/composables/useWsPlayer'
 import type { WsRoom } from '~/types/game'
 
 interface WsEvent {
-  type: 'update' | 'request' | 'push' | 'remove' | 'update-user'
+  type: 'update' | 'request' | 'push' | 'remove' | 'update-user' | 'delete'
   path: string
   content: any
 }
@@ -28,6 +28,7 @@ export default function useWsRoom<U extends object>(
         switch (data.type) {
           case 'update':
           case 'push':
+          case 'delete':
             if (data.path === 'user') {
               if (data.content.username)
                 user.value.username = data.content.username
@@ -82,6 +83,8 @@ export default function useWsRoom<U extends object>(
           obj[parts[i]] = content
         else if (type === 'push')
           obj[parts[i]].push(content)
+        else if (type === 'delete')
+          delete obj[parts[i]]
       }
     }
   }
