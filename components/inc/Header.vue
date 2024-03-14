@@ -3,7 +3,7 @@ import ThemeToggle from '~/components/ThemeToggle.vue'
 </script>
 
 <template>
-  <div class="border-b border-b-accent">
+  <div class="relative z-50 border-b border-b-accent">
     <div class="container flex flex-wrap justify-between py-2">
       <h1 class="font-title text-lg">
         &lt;Kayno0o/default-nuxt-app
@@ -13,11 +13,6 @@ import ThemeToggle from '~/components/ThemeToggle.vue'
           <li>
             <BaseLink to="/">
               Home
-            </BaseLink>
-          </li>
-          <li>
-            <BaseLink to="/404">
-              404
             </BaseLink>
           </li>
         </ul>

@@ -2,6 +2,7 @@
 defineProps<{
   id: string
   label: string
+  type?: HTMLInputElement['type']
 }>()
 const modelValue = defineModel<string | number | null>({ default: () => null })
 </script>
@@ -17,13 +18,15 @@ const modelValue = defineModel<string | number | null>({ default: () => null })
       :name="id"
       :label="label"
       :aria-label="label"
+      :type="type"
+      class="w-full"
     >
   </div>
 </template>
 
 <style scoped>
 input {
-  @apply relative rounded-md border border-accent bg-dark px-2 py-1 text-light outline outline-transparent;
+  @apply relative rounded-md border border-accent bg-dark px-2 py-1 text-light outline-2 outline-transparent ring-0;
   @apply transition-colors duration-300;
 }
 

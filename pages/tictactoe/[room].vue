@@ -1,60 +1,36 @@
 <script setup lang="ts">
-import { useWebSocket } from '@vueuse/core'
-import { useRoute } from 'vue-router'
-import type { TicTacToeGame } from '~/types/game'
-import { randomString } from '~/utils/textUtils'
+import useWsRoom from '~/composables/useWsRoom'
+import type { WsTicTacToeGame } from '~/types/game'
 
-const route = useRoute()
-const config = useRuntimeConfig()
+const { data: game, send, status, user } = useWsRoom<WsTicTacToeGame>('tictactoe')
 
-const token = useCookie('token', {
-  default: () => randomString(40, true),
-})
-const uid = useCookie('uid', {
-  default: () => randomString(20, true),
-})
-const username = useCookie('username')
-
-const game = ref<TicTacToeGame>()
-
-const { status, send } = useWebSocket(
-  () => `${config.public.wsUrl}/tictactoe/${route.params.room}?token=${token.value}&uid=${uid.value}`,
-  {
-    onMessage(ws, event) {
-      game.value = JSON.parse(event.data)
-    },
-  },
-)
-
-const usernameInput = ref('')
-const sentUsername = ref(false)
-
-function sendUsername() {
-  if (username.value && !sentUsername.value) {
-    send(JSON.stringify({ type: 'username', content: username.value }))
-    sentUsername.value = true
-  }
-}
-
-function onSend(type: string, val: any) {
-  send(JSON.stringify({ type, content: JSON.stringify(val) }))
-}
-
-watch(username, sendUsername, { immediate: true })
+const modal = ref(false)
 </script>
 
 <template>
-  <div v-if="username">
-    <p>
+  <div class="flex justify-between">
+    <p class="mb-4">
       Websocket status: {{ status }}
     </p>
+    <div v-if="user.username" class="flex gap-4 text-right">
+      <div>
+        Connected as
+        <GameUsername :user="user" no-you />
+      </div>
+      <BaseInput
+        id="user-color"
+        v-model="user.color"
+        label="Choose a color"
+        class="mt-4 w-32"
+        type="color"
+        @change="send('color', user.color)"
+      />
+    </div>
+  </div>
 
-    <GameTicTacToe v-if="game" :game="game" @send="onSend" />
+  <div v-if="!modal">
+    <GameTicTacToe v-if="game" :game="game.data" @send="send" />
   </div>
-  <div v-else>
-    <BaseInput id="ws-username" v-model="usernameInput" label="username" />
-    <BaseButton @click="username = usernameInput">
-      Confirm
-    </BaseButton>
-  </div>
+
+  <GameUserModal v-model="modal" />
 </template>
