@@ -36,7 +36,6 @@ function sendMessage() {
           Players
         </div>
         <ScrollView class="mb-auto h-80">
-          {{ game.users.length }}
           <GameUsername
             v-for="(u, i) in game.users"
             :key="(u?.id + i)"
