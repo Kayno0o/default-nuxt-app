@@ -31,7 +31,7 @@ function onClose() {
       </div>
 
       <div v-if="!persistent" class="absolute cursor-pointer right-1 top-1 z-10 p-1" @click="onClose">
-        <div class="i-ph-x-bold size-5" />
+        <div class="ph:x-bold size-5" />
       </div>
     </div>
   </div>

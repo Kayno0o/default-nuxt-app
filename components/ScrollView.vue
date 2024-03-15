@@ -51,7 +51,7 @@ function onScroll() {
       <slot />
     </div>
     <Click v-show="!sticky" class="absolute b-1 b-solid bottom-0 right-0 grid size-7 place-items-center round b-light p-0.5" @click="stickScroll">
-      <div class="i-ph-arrow-down-bold size-full text-light" />
+      <div class="ph:arrow-down-bold size-full text-light" />
     </Click>
   </div>
 </template>

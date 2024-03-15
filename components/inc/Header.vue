@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useBreakpointValue from '~/composables/useBreakpointValue'
+import useBreakpointValue from '~/composables/useBreakpointValue';
 
 const route = useRoute()
 
@@ -10,8 +10,8 @@ const toggleExpand = useToggle(expand)
 onClickOutside(header, () => expand.value = false)
 
 const links = [
-  { icon: 'i-ph-house-bold', url: '/', text: 'Home' },
-  { icon: 'i-ph-game-controller-bold', url: '/games', text: 'Games' },
+  { icon: 'ph:house-bold', url: '/', text: 'Home' },
+  { icon: 'ph:game-controller-bold', url: '/games', text: 'Games' },
 ]
 
 const active = computed<string>(() => links.reduce((acc, curr) => {

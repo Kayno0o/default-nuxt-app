@@ -19,7 +19,7 @@ const contrast: any = {
 
 export default defineConfig({
   shortcuts: [
-    [/^(ph|mdi):([\w\-]+)$/, ([_, set, name]) => `i-${set}-${name}`],
+    [/^(ph):([\w\-]+)$/, ([_, set, name]) => `i-${set}-${name}`],
     {
       'content': 'container mx-auto px-8',
       'ttt-square': 'absolute inset-0 b-[0,white] m-auto size-2 bg-white round transition-all-500 no-content',

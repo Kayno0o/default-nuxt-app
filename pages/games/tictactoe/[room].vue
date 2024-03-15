@@ -71,7 +71,7 @@ function sendMessage() {
           class="w-full"
         />
         <Click class="size-7 round bg-accent p-1" @click="sendMessage">
-          <div class="size-full i-ph-chat-bold text-dark" />
+          <div class="size-full ph:chat-bold text-dark" />
         </Click>
       </form>
     </div>

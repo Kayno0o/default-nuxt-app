@@ -13,7 +13,7 @@ function toggleTheme() {
   >
     <div class="relative size-full">
       <div
-        class="absolute inset-0 size-full transition-all-300 text-dark i-ph-moon-bold"
+        class="absolute inset-0 size-full transition-all-300 text-dark ph:moon-bold"
         :class="[
           theme === 'dark' ? 'rotate-0 op100' : 'rotate-180 op0',
         ]"
