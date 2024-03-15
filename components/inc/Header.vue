@@ -21,47 +21,42 @@ const active = computed<string>(() => links.reduce((acc, curr) => {
   return acc
 }, ''))
 
-const iconsExpand = useBreakpointValue({
-  md: true,
-}, expand)
+const iconsExpand = useBreakpointValue({ md: true }, expand)
 </script>
 
 <template>
   <div class="md:w-12" />
   <div
     ref="header"
-    class="
-      fixed inset-y-0 left-0 z-50 flex h-fit flex-col rounded-br-xl border-b border-r border-accent bg-dark p-2 transition-all duration-300
-      md:h-full md:rounded-none md:border-b-0 md:py-4
-    "
-    :class="expand ? 'w-40' : 'w-12'"
+    class="fixed z-100 w-fit h-fit rounded-br-xl b-br-[1,accent] p-2 bg-dark transition-all-300"
   >
-    <Click
-      class="flex h-8 place-items-center items-center justify-center font-anta text-accent"
-      @click="() => toggleExpand()"
-    >
-      &lt;
-      <div class="overflow-hidden text-light">
-        <span class="px-1">Kaynooo.xyz</span>
-      </div>
-      /&gt;
+    <Click class="flex w-fit justify-center h-8 md:mb-3 items-center font-anta" @click="() => toggleExpand()">
+      <span class="text-accent">&lt;</span>
+      <Expand horizontal :model-value="expand" :class="expand ? 'mx-1' : 'mx-0'">
+        <p>Kaynooo</p>
+      </Expand>
+      <span class="text-accent">/&gt;</span>
     </Click>
 
-    <Expand :model-value="iconsExpand" vertical :class="iconsExpand && 'mt-3'">
+    <Expand vertical :model-value="iconsExpand">
       <NuxtLink
         v-for="link in links"
         :key="link.url"
-        class="flex overflow-hidden p-1 transition-colors duration-300"
+        class="flex p-1 transition-colors-300"
         :class="[
           link.url === active ? 'text-accent' : 'text-light',
         ]"
         :to="link.url"
       >
         <div class="aspect-square size-6" :class="link.icon" />
-        <div class="overflow-hidden pl-2 text-light transition-colors duration-300 hover:text-accent">
-          {{ link.text }}
-        </div>
+        <Expand :model-value="expand" horizontal class="text-light hover:text-accent">
+          <p class="w-max pl-2">
+            {{ link.text }}
+          </p>
+        </Expand>
       </NuxtLink>
+
+      <ThemeToggle />
     </Expand>
   </div>
 </template>

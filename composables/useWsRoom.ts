@@ -79,12 +79,18 @@ export default function useWsRoom<U extends object>(
         obj = obj[parts[i]]
       }
       else {
-        if (type === 'update')
-          obj[parts[i]] = content
-        else if (type === 'push')
-          obj[parts[i]].push(content)
-        else if (type === 'delete')
-          delete obj[parts[i]]
+        const part = parts[i]
+        if (type === 'update') {
+          obj[part] = content
+        }
+        else if (type === 'push') {
+          obj[part].push(content)
+        }
+        else if (type === 'delete') {
+          if (Array.isArray(obj) && !Number.isNaN(Number(part)))
+            obj.splice(Number(part), 1)
+          else delete obj[part]
+        }
       }
     }
   }

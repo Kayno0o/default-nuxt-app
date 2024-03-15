@@ -1,6 +1,6 @@
 import { breakpointsTailwind, useEventListener } from '@vueuse/core'
-import { unref } from 'vue'
 import type { MaybeRef } from 'vue'
+import { unref } from 'vue'
 
 // BreakPoint from tailwind
 export type BPName = keyof typeof breakpointsTailwind

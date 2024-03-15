@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useWsPlayer from '~/composables/useWsPlayer'
-import type { TicTacToeState, WsTicTacToeGame } from '~/types/game'
+import useWsPlayer from '~/composables/useWsPlayer';
+import type { TicTacToeState, WsTicTacToeGame } from '~/types/game';
 
 const props = defineProps<{
   game: WsTicTacToeGame
@@ -20,22 +20,23 @@ const texts = computed<{ [key in TicTacToeState]: string }>(() => ({
 }))
 
 const player = useWsPlayer()
-const players = computed(() => [props.game.p1, props.game.p2])
-
-watch([() => props.game.p1?.color], () => {
-  if (wrapper.value && props.game.p1?.color)
-    wrapper.value.style.setProperty('--color-p1', props.game.p1.color)
-})
-
-watch([() => props.game.p2?.color], () => {
-  if (wrapper.value && props.game.p2?.color)
-    wrapper.value.style.setProperty('--color-p2', props.game.p2.color)
-})
 </script>
 
 <template>
-  <div ref="wrapper" class="grid h-fit w-full max-w-72 place-items-center gap-4 px-2">
-    <div v-for="(p, i) in players" :key="i" class="grid h-7 w-full grid-flow-col items-center justify-between gap-2">
+  <div
+    ref="wrapper"
+    class="grid h-fit w-full place-items-center gap-4 max-w-72 px-2"
+    :style="[
+      `--color-p1: ${props.game.p1?.color}`,
+      `--color-p2: ${props.game.p2?.color}`,
+    ]"
+  >
+    {{ props.game.p1?.color }} {{ props.game.p2?.color }}
+    <div
+      v-for="(p, i) in [props.game.p1, props.game.p2]"
+      :key="i"
+      class="grid w-full items-center gap-2 h-7 grid-flow-col justify-between"
+    >
       P{{ i + 1 }}:
       <template v-if="p">
         <GameUsername :user="p" />
@@ -52,18 +53,22 @@ watch([() => props.game.p2?.color], () => {
       </BaseButton>
     </div>
 
-    <div class="grid aspect-square size-fit grid-cols-3 gap-1">
-      <div v-for="(row, x) in game.board" :key="x" class="grid size-fit grid-rows-3 gap-1">
+    <div class="grid gap-1 aspect-square size-fit grid-cols-3">
+      <div v-for="(row, x) in game.board" :key="x" class="grid size-fit gap-1 grid-rows-3">
         <div
           v-for="(item, y) in row"
           :key="y"
-          :data-ttt="item"
+          class="size-16 b-1 b-solid rounded relative before:ttt-square after:ttt-square bg--light"
+          :class="[
+            item === 1 && 'before:[bg-transparent,b-8,size-10,b--color-p1] after:hidden',
+            item === 2 && 'before:[w-10,rotate-45,bg--color-p2] after:[w-10,-rotate-45,bg--color-p2]',
+          ]"
           @click="emit('send', 'click', [y, x])"
         />
       </div>
     </div>
 
-    <div class="text-center font-black">
+    <div class="font-black text-center">
       <p>{{ texts[game.state] }}</p>
 
       <BaseButton
@@ -76,27 +81,3 @@ watch([() => props.game.p2?.color], () => {
     </div>
   </div>
 </template>
-
-<style scoped>
-[data-ttt] {
-  @apply size-16 border rounded-md relative;
-}
-
-[data-ttt]::before, [data-ttt]::after {
-  content: '';
-  @apply absolute inset-0 border-0 border-white m-auto size-2 bg-white rounded-full;
-  @apply transition-all duration-500;
-}
-
-[data-ttt="1"]::before, [data-ttt="1"]::after {
-  @apply bg-transparent border-8 size-10 border-[var(--color-p1)];
-}
-
-[data-ttt="2"]::before {
-  @apply w-10 rotate-45 bg-[var(--color-p2)];
-}
-
-[data-ttt="2"]::after {
-  @apply w-10 -rotate-45 bg-[var(--color-p2)];
-}
-</style>

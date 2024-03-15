@@ -1,23 +1,19 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@unocss;
 
-@layer base {
-    html {
-        font-family: 'Lato', sans-serif;
+html {
+    font-family: 'Lato', sans-serif;
 
-        --accent: 52 208 137;
-        --dark: 238 238 255;
-        --light: 34 34 34;
-    }
+    --accent: 52 208 137;
+    --dark: 238 238 255;
+    --light: 34 34 34;
+}
 
-    html[data-theme="dark"] {
-        --accent: 102 238 187;
-        --dark: 34 34 34;
-        --light: 238 238 255;
-    }
+html[data-theme="dark"] {
+    --accent: 102 238 187;
+    --dark: 34 34 34;
+    --light: 238 238 255;
+}
 
-    .scrollbar-hidden::-webkit-scrollbar {
-        display: none;
-    }
+.scrollbar-hidden::-webkit-scrollbar {
+    display: none;
 }

@@ -6,9 +6,9 @@ defineProps<{ toast: Toast }>()
 const loading = ref(true)
 
 const colors: { [key in ToastType]: string } = {
-  error: 'bg-red-400/25',
-  warning: 'bg-amber-400/25',
-  success: 'bg-emerald-400/25',
+  error: 'bg-red-400/20',
+  warning: 'bg-amber-400/20',
+  success: 'bg-emerald-400/20',
 }
 
 onMounted(async () => {
@@ -23,13 +23,10 @@ onMounted(async () => {
 </script>
 
 <template>
-  <BaseCard
-    class="transition-all duration-200 ease-in"
-    :class="[loading ? 'translate-x-full' : 'translate-x-0']"
-    :classname="{
-      bg: colors[toast.type],
-    }"
+  <div
+    class="transition-all-200 ease-in card"
+    :class="[loading ? 'translate-x-full' : 'translate-x-0', colors[toast.type]]"
   >
     {{ toast.message }}
-  </BaseCard>
+  </div>
 </template>

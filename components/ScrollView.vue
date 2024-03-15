@@ -47,10 +47,10 @@ function onScroll() {
 
 <template>
   <div class="relative">
-    <div ref="scroll" class="scrollbar-hidden relative flex h-full flex-col gap-1 overflow-y-auto" @scroll="onScroll">
+    <div ref="scroll" class="relative flex flex-col scrollbar-hidden h-full gap-1 overflow-y-auto" @scroll="onScroll">
       <slot />
     </div>
-    <Click v-show="!sticky" class="absolute bottom-0 right-0 grid size-7 place-items-center rounded-full border border-light p-0.5" @click="stickScroll">
+    <Click v-show="!sticky" class="absolute b-1 b-solid bottom-0 right-0 grid size-7 place-items-center round b-light p-0.5" @click="stickScroll">
       <div class="i-ph-arrow-down-bold size-full text-light" />
     </Click>
   </div>

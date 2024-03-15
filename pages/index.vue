@@ -12,11 +12,11 @@ const input = ref('')
     Lorem ipsum.
     <BaseInput id="input" v-model="input" label="Nice label" />
 
-    <BaseCard class="flex flex-col items-center gap-2">
+    <div class="flex flex-col items-center gap-2 card">
       Simple card
       <BaseButton @click="addToast('test', getRandom(['success', 'warning', 'error']))">
         Toast
       </BaseButton>
-    </BaseCard>
+    </div>
   </div>
 </template>

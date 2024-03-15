@@ -1,4 +1,8 @@
 <script setup lang="ts">
+defineProps<{
+  is?: string
+}>()
+
 const emit = defineEmits<{
   (e: 'click', event: MouseEvent | KeyboardEvent): void
 }>()
@@ -10,7 +14,8 @@ function handleEvent(e: MouseEvent | KeyboardEvent) {
 </script>
 
 <template>
-  <div
+  <component
+    :is="is ?? 'div'"
     class="cursor-pointer select-none"
     role="button"
     tabindex="0"
@@ -18,5 +23,5 @@ function handleEvent(e: MouseEvent | KeyboardEvent) {
     @keydown="handleEvent"
   >
     <slot />
-  </div>
+  </component>
 </template>

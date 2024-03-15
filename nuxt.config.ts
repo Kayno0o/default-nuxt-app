@@ -3,16 +3,13 @@ export default defineNuxtConfig({
 
   modules: [
     '@vueuse/nuxt',
+    '@unocss/nuxt',
   ],
 
-  css: ['~/assets/css/main.css'],
-
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
+  css: [
+    '@unocss/reset/tailwind.css',
+    '~/assets/css/main.css',
+  ],
 
   runtimeConfig: {
     public: {

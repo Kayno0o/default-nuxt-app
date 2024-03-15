@@ -70,5 +70,7 @@ export default function getElementBoundingBox(element?: Element | null) {
     padding,
     margin,
     gap,
+    scrollWidth: element?.scrollWidth ?? 0,
+    scrollHeight: element?.scrollHeight ?? 0,
   }
 }
