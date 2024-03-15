@@ -31,7 +31,6 @@ const player = useWsPlayer()
       `--color-p2: ${props.game.p2?.color}`,
     ]"
   >
-    {{ props.game.p1?.color }} {{ props.game.p2?.color }}
     <div
       v-for="(p, i) in [props.game.p1, props.game.p2]"
       :key="i"
