@@ -101,6 +101,10 @@ export default defineConfig({
   },
   presets: [
     presetUno(),
-    presetIcons(),
+    presetIcons({
+      collections: {
+        ph: () => import('@iconify-json/ph/icons.json').then(i => i.default),
+      },
+    }),
   ],
 })
