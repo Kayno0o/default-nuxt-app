@@ -52,18 +52,28 @@ const player = useWsPlayer()
       </BaseButton>
     </div>
 
-    <div class="grid gap-1 aspect-square size-fit grid-cols-3">
-      <div v-for="(row, x) in game.board" :key="x" class="grid size-fit gap-1 grid-rows-3">
+    <div class="grid gap-1 aspect-square size-full max-w-72 max-h-72" :style="`grid-template-columns: repeat(${game.board.length}, minmax(0, 1fr));`">
+      <div
+        v-for="(row, x) in game.board"
+        :key="x"
+        class="grid size-full gap-1"
+        :style="`grid-template-rows: repeat(${game.board.length}, minmax(0, 1fr));`"
+      >
         <div
           v-for="(item, y) in row"
           :key="y"
-          class="size-16 b-1 b-solid rounded relative before:ttt-square after:ttt-square bg--light"
-          :class="[
-            item === 1 && 'before:[bg-transparent,b-8,size-10,b--color-p1] after:hidden',
-            item === 2 && 'before:[w-10,rotate-45,bg--color-p2] after:[w-10,-rotate-45,bg--color-p2]',
-          ]"
+          class="size-full relative p-0.5 b-[1,light] rounded"
           @click="emit('send', 'click', [y, x])"
-        />
+        >
+          <div
+            class="absolute inset-0 ph:x-bold size-full bg--color-p1 transition-transform-300"
+            :class="item === 1 ? 'scale-100' : 'scale-0'"
+          />
+          <div
+            class="absolute inset-0 ph:circle size-full bg--color-p2 transition-transform-300"
+            :class="item === 2 ? 'scale-100' : 'scale-0'"
+          />
+        </div>
       </div>
     </div>
 
