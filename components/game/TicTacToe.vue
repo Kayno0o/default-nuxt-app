@@ -52,7 +52,7 @@ const player = useWsPlayer()
       </BaseButton>
     </div>
 
-    <div class="grid gap-1 aspect-square size-full max-w-72 max-h-72" :style="`grid-template-columns: repeat(${game.board.length}, minmax(0, 1fr));`">
+    <div v-if="game.board" class="grid gap-1 aspect-square size-full max-w-72 max-h-72" :style="`grid-template-columns: repeat(${game.board.length}, minmax(0, 1fr));`">
       <div
         v-for="(row, x) in game.board"
         :key="x"
