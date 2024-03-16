@@ -21,7 +21,7 @@ defineSlots<{
       <slot
         v-for="(item, y) in row"
         name="item"
-        :props="{ class: 'size-full', key: y }"
+        :props="{ key: y }"
         :item="item"
         :x="x"
         :y="y"

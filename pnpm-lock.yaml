@@ -11,6 +11,9 @@ devDependencies:
   '@eslint/eslintrc':
     specifier: ^3.0.2
     version: 3.0.2
+  '@iconify-json/material-symbols':
+    specifier: ^1.1.75
+    version: 1.1.75
   '@iconify-json/ph':
     specifier: ^1.1.11
     version: 1.1.11
@@ -1090,6 +1093,12 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.2:
     resolution: {integrity: sha512-6EwiSjwWYP7pTckG6I5eyFANjPhmPjUX9JRLUSfNPC7FX7zK9gyZAfUEaECL6ALTpGX5AjnBq3C9XmVWPitNpw==}
+    dev: true
+
+  /@iconify-json/material-symbols@1.1.75:
+    resolution: {integrity: sha512-YMLagGENDw9QNoo4sPDoMX9wO20YptQ2FuTDCf/H/uRH4lGmD08C+z+kYwR4A90qyyo6hYG7yccPEiMOuLow5A==}
+    dependencies:
+      '@iconify/types': 2.0.0
     dev: true
 
   /@iconify-json/ph@1.1.11:
