@@ -6,7 +6,7 @@ function toggleTheme() {
 </script>
 
 <template>
-  <div
+  <Click
     class="size-7 bg-accent round p-1.5 mt-4 m-0.5"
     aria-label="Dark or Light theme toggle"
     @click="toggleTheme"
@@ -25,5 +25,5 @@ function toggleTheme() {
         ]"
       />
     </div>
-  </div>
+  </Click>
 </template>

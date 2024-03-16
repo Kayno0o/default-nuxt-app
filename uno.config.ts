@@ -26,18 +26,19 @@ export default defineConfig({
       'card': 'relative rounded b-1 b-solid bg-dark px-4 b-light/25 py-2 transition-colors-300 before:absolute,inset-0,pointer-events-none,rounded-inherit,bg-light/5,no-content,transition-colors-300',
     },
     [/^btn(?:-(.*))?$/, ([_, color]) => `flex gap-2 px-3 h-fit w-fit bg-${color} rounded py-0.5 b-none text-${contrast[color]}`],
-    [/^([\w\-\/]+,[\w\-\/,]+)$/, ([_, classes]) => {
+    [/^([\w\-\.\/%]+,[\w\-\.\/%,]+)$/, ([_, classes]) => {
       return classes.split(',').map(c => c).join(' ')
     }],
     [/^(bg|text)--([\w\-]+)$/, ([_, type, col]) => `${type}-[var(--${col})]`],
     [/^rounded-([tb])$/, ([_, position]) => `rounded-${position}l rounded-${position}r`],
     [/^rounded-([lr])$/, ([_, position]) => `rounded-t${position} rounded-b${position}`],
-    [/^b(?:-([tlrb]{2,3}))?-(\[[\w\-,]+\]|\w+)$/, ([_, directionsStr, attributesStr]) => {
+    [/^(b|outline)(?:-([tlrb]{1,3}))?-(\[[\w\-,]+\]|\w+)$/, ([_, type, directionsStr, attributesStr]) => {
       const attributes = attributesStr.replaceAll(/[\[\]]/g, '').split(',')
       const directions = directionsStr?.split('') || []
 
-      return attributes.map(a => directions.map(d => `b-${d}-${a}`).join(' ') || `b-${a}`).join(' ')
+      return attributes.map(a => directions.map(d => `${type}-${d}-${a}`).join(' ') || `${type}-${a}`).join(' ')
     }],
+    [/^max-size-(\w+)$/, ([_, size]) => `max-w-${size} max-h-${size}`],
   ],
   rules: [
     ['rounded', { 'border-radius': '.375rem' }],
@@ -62,6 +63,16 @@ export default defineConfig({
       anta: 'Anta',
     },
   },
+  variants: [
+    (matcher) => {
+      if (!matcher.startsWith('around:'))
+        return matcher
+      return {
+        matcher: matcher.slice(7),
+        selector: s => `${s}:before, ${s}:after`,
+      }
+    },
+  ],
   presets: [
     presetUno(),
     presetIcons({
