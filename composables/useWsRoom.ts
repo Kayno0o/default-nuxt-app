@@ -15,7 +15,7 @@ export default function useWsRoom<U extends object>(name: string) {
   const room = ref<WsRoom<U>>({ users: [], data: {} as any, messages: [] })
   const user = useWsPlayer()
 
-  const { resume, pause } = useIntervalFn(() => send('heartbeat', 'ping'), 10000, { immediate: false })
+  const { resume, pause } = useIntervalFn(() => send('heartbeat', 'ping'), 30000, { immediate: false })
 
   function handleData(data: WsEvent) {
     switch (data.type) {

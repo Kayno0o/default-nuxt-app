@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useWsPlayer from '~/composables/useWsPlayer';
-import type { TicTacToeState, WsTicTacToeGame } from '~/types/game';
+import useWsPlayer from '~/composables/useWsPlayer'
+import type { TicTacToeState, WsTicTacToeGame } from '~/types/game'
 
 const props = defineProps<{
   game: WsTicTacToeGame
@@ -52,17 +52,16 @@ const player = useWsPlayer()
       </BaseButton>
     </div>
 
-    <div v-if="game.board" class="grid gap-1 aspect-square size-full max-w-72 max-h-72" :style="`grid-template-columns: repeat(${game.board.length}, minmax(0, 1fr));`">
-      <div
-        v-for="(row, x) in game.board"
-        :key="x"
-        class="grid size-full gap-1"
-        :style="`grid-template-rows: repeat(${game.board.length}, minmax(0, 1fr));`"
-      >
+    <GameGrid
+      v-if="game.board"
+      :board="game.board"
+      class="size-full gap-1 max-w-72 max-h-72"
+      rowclass="gap-1"
+    >
+      <template #item="{ x, y, item, props: itemProps }">
         <div
-          v-for="(item, y) in row"
-          :key="y"
-          class="size-full relative p-0.5 b-[1,light] rounded"
+          v-bind="itemProps"
+          class="relative p-0.5 b-[1,light] rounded"
           @click="emit('send', 'click', [y, x])"
         >
           <div
@@ -74,8 +73,8 @@ const player = useWsPlayer()
             :class="item === 2 ? 'scale-100' : 'scale-0'"
           />
         </div>
-      </div>
-    </div>
+      </template>
+    </GameGrid>
 
     <div class="font-black text-center">
       <p>{{ texts[game.state] }}</p>
