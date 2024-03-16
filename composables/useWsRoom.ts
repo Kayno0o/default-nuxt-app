@@ -8,10 +8,7 @@ interface WsEvent {
   content: any
 }
 
-export default function useWsRoom<U extends object>(
-  name: string,
-  onMessage?: (ws: WebSocket, event: MessageEvent<any>) => void,
-) {
+export default function useWsRoom<U extends object>(name: string) {
   const route = useRoute()
   const config = useRuntimeConfig()
 
@@ -20,38 +17,43 @@ export default function useWsRoom<U extends object>(
 
   const { resume, pause } = useIntervalFn(() => send('heartbeat', 'ping'), 10000, { immediate: false })
 
+  function handleData(data: WsEvent) {
+    switch (data.type) {
+      case 'update':
+      case 'push':
+      case 'delete':
+        if (data.path === 'user') {
+          if (data.content.username)
+            user.value.username = data.content.username
+          if (data.content.color)
+            user.value.color = data.content.color
+
+          break
+        }
+        update(data)
+        break
+      case 'request':
+        switch (data.path) {
+          case 'user':
+            send('user', { username: user.value.username, color: user.value.color })
+            break
+        }
+        break
+      default:
+        console.log('Unknown data:', data)
+        break
+    }
+  }
+
   const { status, send: sendData, open } = useWebSocket(
     () => `${config.public.wsUrl}/${name}/${route.params.room}?token=${user.value.token}&uid=${user.value.id}`,
     {
       onMessage(ws, event) {
-        const data: WsEvent = JSON.parse(event.data)
-        switch (data.type) {
-          case 'update':
-          case 'push':
-          case 'delete':
-            if (data.path === 'user') {
-              if (data.content.username)
-                user.value.username = data.content.username
-              if (data.content.color)
-                user.value.color = data.content.color
+        const data: WsEvent | WsEvent[] = JSON.parse(event.data)
+        if (Array.isArray(data))
+          data.forEach(handleData)
 
-              break
-            }
-            update(data)
-            break
-          case 'request':
-            switch (data.path) {
-              case 'user':
-                send('user', { username: user.value.username, color: user.value.color })
-                break
-            }
-            break
-          default:
-            if (typeof onMessage === 'function')
-              onMessage(ws, event)
-
-            break
-        }
+        else handleData(data)
       },
       onConnected() {
         resume()
