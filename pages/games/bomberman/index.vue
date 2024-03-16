@@ -39,15 +39,13 @@ const user = useWsPlayer()
 <template>
   <GameGrid
     :board="grid"
-    class="size-full max-size-150 b-[1,light]"
+    class="size-full max-size-150 b-[1,light] rounded"
   >
     <template #item="{ props: itemProps, item, x, y }">
       <div v-bind="itemProps" class="size-full relative aspect-square grid">
         <div v-if="item === 'c'" class="b-[2,solid,orange] bg-orange/20 rounded m-0.5 relative around:no-content,top-1/2,left-1/2,h-0.5,-translate-x-1/2,-translate-y-1/2,round,w-140%,bg-orange,absolute,m-auto,round after:rotate-45 before:-rotate-45" />
         <div v-else-if="item === 's'" class="m-0 b-[2,solid,gray-4] rounded m-0.5 bg-gray-5" />
-        <div v-else-if="item === 'b'" calss="relative">
-          <div class="ph:circle-dashed-duotone  text-light absolute inset-0 size-full" />
-        </div>
+        <div v-else-if="item === 'b'" class="ph:circle-dashed-duotone  text-light size-full" />
         <div v-else>
           {{ item }}
         </div>
