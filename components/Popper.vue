@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import * as Popper from '@popperjs/core';
+import * as Popper from '@popperjs/core'
 
 const props = defineProps<{
   content?: string
@@ -71,7 +71,7 @@ function destroyPopper() {
   </component>
 
   <div v-show="show" ref="contentElement">
-    <div class="bg-[#555] px-3 py-1">
+    <div class="bg-#555 px-3 py-1">
       <slot name="content" />
       {{ content }}
     </div>

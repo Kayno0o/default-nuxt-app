@@ -23,10 +23,10 @@ export default defineConfig({
     {
       'content': 'container mx-auto px-8',
       'ttt-square': 'absolute inset-0 b-[0,white] m-auto size-2 bg-white round transition-all-500 no-content',
-      'card': 'relative rounded b-1 b-solid bg-dark px-4 b-light/25 py-2 transition-colors-300 before:[absolute,inset-0,pointer-events-none,rounded-inherit,bg-light/5,no-content,transition-colors-300]',
+      'card': 'relative rounded b-1 b-solid bg-dark px-4 b-light/25 py-2 transition-colors-300 before:absolute,inset-0,pointer-events-none,rounded-inherit,bg-light/5,no-content,transition-colors-300',
     },
     [/^btn(?:-(.*))?$/, ([_, color]) => `flex gap-2 px-3 h-fit w-fit bg-${color} rounded py-0.5 b-none text-${contrast[color]}`],
-    [/^\[([\w\-\/,]+)\]$/, ([_, classes]) => {
+    [/^([\w\-\/]+,[\w\-\/,]+)$/, ([_, classes]) => {
       return classes.split(',').map(c => c).join(' ')
     }],
     [/^(bg|text)--([\w\-]+)$/, ([_, type, col]) => `${type}-[var(--${col})]`],
@@ -40,13 +40,11 @@ export default defineConfig({
     ['no-content', { content: '\'\'' }],
 
     [
-      /^grid-auto-(columns|rows)(-none)?$/,
+      /^grid-auto-(cols|rows)(-none)?$/,
       ([, type, value]) => ({
-        [`grid-auto-${type}`]: value === 'none' ? 'unset' : '1fr',
+        [`grid-auto-${type === 'cols' ? 'columns' : type}`]: value === 'none' ? 'unset' : '1fr',
       }),
     ],
-
-    [/^rd-(\d+)$/, ([, value]) => ({ 'border-radius': `${Number(value) / 4}rem` })],
 
     /**
      * @see https://regex101.com/r/NxbKrg/1

@@ -21,7 +21,7 @@ function onClose() {
 <template>
   <div
     v-show="modal"
-    class="flex items-center absolute inset-0 z-40 max-h-svh max-w-[100svw] justify-center px-4 py-24"
+    class="flex items-center absolute inset-0 z-40 max-h-svh max-w-100svw justify-center px-4 py-24"
   >
     <div class="absolute inset-0 -z-10 bg-black op50" @click="onClose" />
 

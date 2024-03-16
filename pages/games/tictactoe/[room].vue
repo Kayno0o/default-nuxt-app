@@ -29,7 +29,7 @@ function sendMessage() {
     </template>
   </div>
 
-  <div v-if="status === 'OPEN' && user.username && game" class="grid w-fit mx-auto gap-6 grid-auto-rows grid-auto-columns-none md:grid-flow-col md:grid-auto-columns">
+  <div v-if="status === 'OPEN' && user.username && game" class="grid w-fit mx-auto gap-6 grid-auto-rows grid-auto-cols-none md:grid-flow-col md:grid-auto-cols">
     <div class="size-full max-w-72 grow hidden lg:grid card">
       <div>
         <div class="mb-2 b-b bg-dark b-b-accent pb-3">
