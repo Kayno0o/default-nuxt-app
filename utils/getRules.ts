@@ -1,10 +1,10 @@
-type RuleFunction = (arg: any) => boolean | string
+export type RuleFunction<T> = (arg?: T | null | undefined) => boolean | string
 
-type ValidKeys<T> = {
-  [K in keyof T]: T[K] extends RuleFunction ? (ReturnType<T[K]> extends boolean | string ? K : never) : never;
+type ValidKeys<T, U> = {
+  [K in keyof T]: T[K] extends RuleFunction<U> ? (ReturnType<T[K]> extends boolean | string ? K : never) : never;
 }[keyof T]
 
-export type RulesName = ValidKeys<ReturnType<typeof getRules>>
+export type RulesName<T> = ValidKeys<ReturnType<typeof getRules>, T>
 
 export default function getRules() {
   const number = (comparator: 'lt' | 'gt' | 'gte' | 'lte' | 'eq' | 'neq', nb: number) => (value: number | undefined | null) => {
