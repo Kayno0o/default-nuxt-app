@@ -40,12 +40,11 @@ export default function useWsRoom<U extends object>(name: string) {
         }
         break
       default:
-        console.log('Unknown data:', data)
         break
     }
   }
 
-  const { status, send: sendData, open } = useWebSocket(
+  const { status, send: sendData, open, close } = useWebSocket(
     () => `${config.public.wsUrl}/${name}/${route.params.room}?token=${user.value.token}&uid=${user.value.id}`,
     {
       onMessage(ws, event) {
@@ -103,6 +102,10 @@ export default function useWsRoom<U extends object>(name: string) {
       color: user.value.color,
       username: user.value.username,
     })
+  })
+
+  onBeforeUnmount(() => {
+    close()
   })
 
   return { data: room, update, user, send, status }

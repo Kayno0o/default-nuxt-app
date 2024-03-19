@@ -3,7 +3,7 @@ const router = useRouter()
 const room = ref('')
 
 function randomRoom() {
-  const str = randomString(20, true)
+  const str = randomString(8, true)
   router.push({ name: 'games-tictactoe-room', params: { room: str } })
 }
 
