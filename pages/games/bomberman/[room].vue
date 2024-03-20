@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import type { UseDrawKeysAndArgs } from '~/composables/useCanvasObject';
 import type { Player } from '~/types/game';
+import type { RecursivePartial } from '~/types/types';
+import removeObjectByKey from '~/utils/removeObjectByKey';
 
 interface Position {
   x: number
@@ -26,16 +29,15 @@ interface WsBombermanGame {
   explosions: Explosion[]
 }
 
-const { data: bomberman, send, status, user } = useWsRoom<WsBombermanGame>('bomberman')
+const { data: bomberman, send, status, user, onUpdate: onWsUpdate } = useWsRoom<WsBombermanGame>('bomberman')
 
-function scale(e: Explosion) {
-  if (!e.start || e.end)
-    return e.dir === 'h' ? 'scale-x-0' : 'scale-y-0'
+const game = ref<HTMLCanvasElement>()
 
-  return e.dir === 'h' ? 'scale-x-100' : 'scale-y-100'
-}
+const { draw, loop, onKeyDown, onKeyUp, keys } = useCanvas(game)
+const { objects, drawObjects, set: setObject, get: getObject, addAnimations } = useCanvasObject(draw)
 
-const keys = ref(new Set<string>())
+const [height, width] = [600, 600]
+
 const direction = ref<'up' | 'down' | 'left' | 'right' | null>(null)
 
 function getDirection() {
@@ -73,13 +75,136 @@ function getDirection() {
   }
 }
 
+const image = ref<HTMLImageElement>()
+onMounted(() => {
+  image.value = new Image()
+  image.value.src = '/assets/blue_slime.png'
+})
+
+onWsUpdate(() => {
+  if (!bomberman.value.data?.board)
+    return
+
+  const data = bomberman.value.data
+  const [sx, sy] = [height / data.board.length, width / data.board[0].length]
+
+  data.board.forEach((col, x) => {
+    col.forEach((item, y) => {
+      let color = 'transparent'
+
+      if (item === 1)
+        color = 'gray'
+      if (item === 2)
+        color = 'orange'
+
+      setObject(`${x}-${y}`, {
+        props: {
+          height: sx,
+          width: sy,
+          pos: [x * sx, y * sy],
+          fillColor: color,
+        },
+        animations: [],
+        type: 'rect',
+      })
+    })
+  })
+
+  removeObjectByKey(objects.value, key => key.startsWith('bomb-'))
+
+  data.bombs.forEach((b) => {
+    setObject(`bomb-${b.pos.x}-${b.pos.y}`, {
+      type: 'rect',
+      animations: [],
+      props: {
+        height: sx,
+        width: sx,
+        pos: [b.pos.x * sx, b.pos.y * sy],
+        fillColor: 'black',
+      },
+    })
+  })
+
+  data.players.forEach((p) => {
+    const key = `player-${p.id}`
+    const obj = getObject<'image'>(key)
+    if (obj) {
+      if (obj.props.pos[0] !== p.pos.x * sx || obj.props.pos[1] !== p.pos.y * sy) {
+        addAnimations<'image'>(key, {
+          frames: generateFrames<Partial<UseDrawKeysAndArgs['image']>>({
+            pos: obj.props.pos,
+          }, {
+            pos: [p.pos.x * sx, p.pos.y * sy],
+          }, 5),
+          background: true,
+          duration: p.speed,
+          type: 'edit',
+          order: 0,
+          startedAt: Date.now(),
+        })
+      }
+    }
+    else {
+      if (image.value) {
+        const frames: RecursivePartial<UseDrawKeysAndArgs['image']>[] = [
+          { crop: { start: [0, 0] } },
+          { crop: { start: [160, 0] } },
+        ]
+        setObject(key, {
+          type: 'image',
+          animations: [{
+            frames,
+            background: true,
+            duration: 400,
+            type: 'infinite',
+            order: 1,
+            startedAt: Date.now(),
+          }],
+          props: {
+            image: upscaleImage(image.value, 10),
+            height: sx,
+            width: sx,
+            crop: {
+              size: [160, 160],
+              start: [0, 0],
+            },
+            pos: [p.pos.x * sx, p.pos.y * sy],
+          },
+        })
+      }
+    }
+  })
+})
+
+loop((secPercent: number, width: number, height: number) => {
+  draw.rect({
+    height,
+    width,
+    pos: [0, 0],
+    fillColor: [34, 34, 34],
+    strokeColor: 'white',
+    weight: 1,
+  })
+
+  drawObjects()
+})
+
+onKeyDown((key: string, isNew: boolean) => {
+  if (key === ' ')
+    send('bomb')
+  if (!isNew)
+    return
+
+  getDirection()
+})
+
+onKeyUp(() => {
+  getDirection()
+})
+
 onMounted(() => {
   useEventListener(document, 'keyup', (e) => {
-    if (!keys.value.has(e.key))
-      return
-
     keys.value.delete(e.key)
-    getDirection()
   })
 
   useEventListener(document, 'keydown', (e) => {
@@ -96,111 +221,17 @@ onMounted(() => {
 </script>
 
 <template>
-  Status: {{ status }}
+  Status: {{ status }} - {{ direction }}
 
-  <GameGrid
-    v-if="bomberman.data?.board"
-    :board="bomberman.data.board"
-    class="size-full max-size-150 b-[1,light] rounded mx-auto"
-  >
-    <template #item="{ props: itemProps, item, x, y }">
-      <div v-bind="itemProps" class="size-full relative aspect-square grid">
-        <svg
-          v-if="item === 2"
-          class="absolute inset-0"
-          viewBox="0 0 100 100"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect
-            x="10"
-            y="10"
-            width="80"
-            height="80"
-            rx="10"
-            ry="10"
-            stroke-width="2"
-            stroke="rgba(251, 146, 60, 1)"
-            fill="rgba(251, 146, 60, 0.2)"
-          />
-          <rect
-            x="-3"
-            y="50"
-            width="106"
-            height="1"
-            transform="rotate(-45 50 50)"
-            fill="rgba(251, 146, 60, 1)"
-          />
-          <rect
-            x="-3"
-            y="50"
-            width="106"
-            height="1"
-            transform="rotate(45 50 50)"
-            fill="rgba(251, 146, 60, 1)"
-          />
-        </svg>
-        <div v-else-if="item === 1" class="absolute inset-0 m-0.5 b-[2,solid,gray-4] rounded bg-gray-5" />
-        <div v-else-if="item === 3" class="absolute inset-0 ph:train size-full m-0.5 text-blue-2" />
-        <div v-else-if="item === 4" class="absolute inset-0 ph:plus-circle-duotone size-full m-0.5 text-green-2" />
-        <div v-else-if="item === 5" class="absolute inset-0 ph:flame size-full m-0.5 text-red-2" />
-
-        <template v-if="x === 0 && y === 0">
-          <div
-            v-for="(bomb, i) in bomberman.data.bombs"
-            :key="`bomb-${i}`"
-            class="absolute inset-0 ph:circle-dashed-duotone size-full"
-            :style="[
-              `transform: translateX(${bomb.pos.x * 100}%) translateY(${bomb.pos.y * 100}%)`,
-            ]"
-          />
-
-          <div
-            v-for="(e, ei) in bomberman.data.explosions"
-            :key="`${e.pos.x}-${e.pos.y}-${ei}`"
-            class="absolute z-100 size-full top-0"
-            :class="[
-              e.dir === 'v' ? 'translate-x-1/2' : 'translate-y-1/2',
-            ]"
-          >
-            <div
-              class="absolute z-100 round transition-transform-300 z-0"
-              :class="[
-                e.dir === 'v' ? '-translate-x-1/2' : '-translate-y-1/2',
-                scale(e),
-              ]"
-              :style="[
-                `left: ${100 * e.pos.x + (e.dir === 'h' ? 20 : 0)}%`,
-                `top: ${100 * e.pos.y + (e.dir === 'v' ? 20 : 0)}%`,
-                `width: ${e.dir === 'h' ? 100 * e.size - 40 : 40}%`,
-                `height: ${e.dir === 'v' ? 100 * e.size - 40 : 40}%`,
-                `transform-origin: ${e.dir === 'h' ? (100 / (e.size - 1)) * e.from : 50}% ${e.dir === 'v' ? (100 / (e.size - 1)) * e.from : 50}%`,
-              ]"
-            >
-              <div class="absolute -inset-1 bg-red-6 round" />
-              <div class="absolute z-10 inset-0 bg-orange-5 round" />
-              <div class="absolute z-20 inset-1.5 bg-orange-3 round" />
-            </div>
-          </div>
-
-          <div
-            v-for="(p, i) in bomberman.data.players"
-            :key="p.id + i"
-            class="absolute inset-0 size-full z-100 transition-all ease-linear"
-            :class="[
-              p.id === user.id ? 'ph:map-pin-line-fill' : 'ph:map-pin',
-            ]"
-            :style="[
-              `color: ${p.color}`,
-              `transform: translateX(${100 * p.pos.x}%) translateY(${100 * p.pos.y}%) scale(${p.dead ? 0 : 100}%)`,
-              `transition-duration: ${Number(p.speed) + 25}ms`,
-            ]"
-          />
-        </template>
-      </div>
-    </template>
-  </GameGrid>
+  <canvas
+    ref="game"
+    :width="width"
+    :height="height"
+    class="mx-auto"
+    style="image-rendering: pixelated; image-rendering: crisp-edges;"
+  />
 
   <Click class="btn-accent" @click="() => send('join')">
     join
   </Click>
-</template>
+</template>~/composables/useGenerateCanvasAnimation~/composables/generateFrames

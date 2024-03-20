@@ -8,6 +8,8 @@ interface WsEvent {
   content: any
 }
 
+type OnUpdateFn = (type: WsEvent['type'], path: WsEvent['path'], content: WsEvent['content']) => void
+
 export default function useWsRoom<U extends object>(name: string) {
   const route = useRoute()
   const config = useRuntimeConfig()
@@ -16,6 +18,8 @@ export default function useWsRoom<U extends object>(name: string) {
   const user = useWsPlayer()
 
   const { resume, pause } = useIntervalFn(() => send('heartbeat', 'ping'), 30000, { immediate: false })
+
+  const onUpdate = ref<OnUpdateFn>()
 
   function handleData(data: WsEvent) {
     switch (data.type) {
@@ -31,6 +35,8 @@ export default function useWsRoom<U extends object>(name: string) {
           break
         }
         update(data)
+        if (onUpdate.value)
+          onUpdate.value(data.type, data.path, data.content)
         break
       case 'request':
         switch (data.path) {
@@ -108,5 +114,9 @@ export default function useWsRoom<U extends object>(name: string) {
     close()
   })
 
-  return { data: room, update, user, send, status }
+  function setOnUpdate(fn: OnUpdateFn) {
+    onUpdate.value = fn
+  }
+
+  return { data: room, update, user, send, status, onUpdate: setOnUpdate }
 }

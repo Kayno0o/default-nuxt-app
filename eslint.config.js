@@ -9,5 +9,6 @@ export default antfu({
     'vue/max-attributes-per-line': ['error', { singleline: { max: 3 }, multiline: { max: 1 } }],
     'array-bracket-newline': ['error', 'consistent'],
     'array-element-newline': ['error', 'consistent'],
+    'unused-imports/no-unused-vars': 'warn',
   },
 })

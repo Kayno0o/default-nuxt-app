@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { InputAutocompleteType } from '~/types/input';
+import type { InputAutocompleteType } from '~/types/input'
 
 defineProps<{
   id: string

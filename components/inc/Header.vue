@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import useBreakpointValue from '~/composables/useBreakpointValue';
+import useBreakpointValue from '~/composables/useBreakpointValue'
 
 const route = useRoute()
 

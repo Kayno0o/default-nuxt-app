@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import useWsRoom from '~/composables/useWsRoom';
-import type { WsTicTacToeGame } from '~/types/game';
+import useWsRoom from '~/composables/useWsRoom'
+import type { WsTicTacToeGame } from '~/types/game'
 
 const { data: game, send, status, user } = useWsRoom<WsTicTacToeGame>('tictactoe')
 
