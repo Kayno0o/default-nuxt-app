@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
+    'nuxt-auth-utils',
   ],
 
   css: [
