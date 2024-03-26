@@ -1,5 +1,5 @@
-import type { RecursivePartial } from '~/types/types'
 import map from './map'
+import type { RecursivePartial } from '~/types/types'
 
 export default function generateFrames<T extends object>(start: RecursivePartial<T>, end: RecursivePartial<T>, framesNb: number): T[] {
   const frames: T[] = []
