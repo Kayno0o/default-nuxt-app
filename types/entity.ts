@@ -11,7 +11,7 @@ export interface User extends Identifiable, Timestampable {
   username: string
 }
 
-export type RoleType = 'ROLE_SUPER_ADMIN' | 'ROLE_ADMIN' | 'ROLE_EDITOR' | 'ROLE_USER'
+export type RoleType = 'ROLE_SUPER_ADMIN' | 'ROLE_ADMIN' | 'ROLE_EDITOR' | 'ROLE_USER' | 'ROLE_VIEWER'
 
 export interface LoginResponse {
   token: string

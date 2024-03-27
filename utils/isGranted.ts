@@ -2,7 +2,8 @@ import type { RoleType, User } from '~/types/entity'
 
 export const RoleHierarchy: { [key in RoleType]: Array<RoleType> } = {
   ROLE_USER: [],
-  ROLE_EDITOR: ['ROLE_USER'],
+  ROLE_VIEWER: ['ROLE_USER'],
+  ROLE_EDITOR: ['ROLE_VIEWER'],
   ROLE_ADMIN: ['ROLE_USER', 'ROLE_EDITOR'],
   ROLE_SUPER_ADMIN: ['ROLE_ADMIN'],
 }
