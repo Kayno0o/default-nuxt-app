@@ -16,7 +16,6 @@ export default defineNuxtConfig({
     public: {
       baseApiUrl: process.env.BASE_API_URL,
       apiUrl: process.env.API_URL,
-      wsUrl: process.env.WS_URL,
     },
   },
 
