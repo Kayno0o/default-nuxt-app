@@ -1,7 +1,10 @@
-export function randomString(length: number, charCode?: boolean) {
+export function randomString(length: number, hex?: boolean) {
   const array = new Uint8Array(length)
-  window.crypto.getRandomValues(array)
-  return Array.from(array, byte => charCode ? String.fromCharCode(byte) : byte).join('')
+  crypto.getRandomValues(array)
+
+  if (hex)
+    return Array.from(array, byte => (`0${(byte & 0xFF).toString(16)}`).slice(-2)).join('')
+  return Array.from(array, byte => byte).join('')
 }
 
 export function normalizeAccents(str: string) {

@@ -1,4 +1,4 @@
-import type { FetchContext, FetchResponse } from 'ofetch'
+import type { FetchContext, FetchOptions, FetchResponse } from 'ofetch'
 import type { Ref } from 'vue'
 import type { UseFetchOptions } from '#app'
 import type { KeysOf } from '#app/composables/asyncData'
@@ -13,15 +13,27 @@ interface ResponseHandlerProps<T> {
   loading?: Ref<boolean>
 }
 
-export default function fetchHandler<T = any, U = any>(
+function getAuthToken() {
+  return process.server ? useCookie('user_token').value : useUserSession().session.value?.token
+}
+
+export default function fetchHandler<T = any, U = T, FetchType extends 'useFetch' | '$fetch' = 'useFetch'>(
   props: ResponseHandlerProps<T>,
-): UseFetchOptions<T, U, KeysOf<U>, U, any, 'get'> {
+): FetchType extends 'useFetch' ? UseFetchOptions<T, U, KeysOf<U>, U, any, 'get'> : FetchOptions {
   const { addToast } = useToast()
 
   return {
-    onRequest(_context: FetchContext): Promise<void> | void {
+    onRequest({ options }: FetchContext): Promise<void> | void {
       if (props.loading)
         props.loading.value = true
+
+      if (!options.headers)
+        options.headers = {}
+
+      options.headers = {
+        ...options.headers,
+        Authorization: `Bearer ${getAuthToken()}`,
+      }
     },
     onResponse({ response, error }: FetchContext & { response: FetchResponse<T> }): Promise<void> | void {
       if (props.loading)

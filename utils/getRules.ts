@@ -1,4 +1,4 @@
-export type RuleFunction<T> = (arg?: T | null | undefined) => boolean | string
+export type RuleFunction<T> = (arg: T) => boolean | string
 
 type ValidKeys<T, U> = {
   [K in keyof T]: T[K] extends RuleFunction<U> ? (ReturnType<T[K]> extends boolean | string ? K : never) : never;

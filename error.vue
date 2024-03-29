@@ -5,7 +5,7 @@ const error = useError()
 <template>
   <NuxtLayout>
     <div class="flex flex-col items-center gap-4">
-      {{ error.message }}
+      {{ error ? error.message : 'no error' }}
 
       <BaseLink to="/">
         Go back to navigation
