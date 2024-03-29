@@ -14,9 +14,9 @@ const input = ref('')
 
     <div class="flex flex-col items-center gap-2 card">
       Simple card
-      <BaseButton @click="addToast('test', getRandom(['success', 'warning', 'error']))">
+      <Click class="btn-accent" @click="addToast('test', getRandom(['success', 'warning', 'error']))">
         Toast
-      </BaseButton>
+      </Click>
     </div>
   </div>
 </template>

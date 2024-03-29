@@ -15,10 +15,6 @@ type LinkType = { [key in 'icon' | 'url' | 'text']: string }
 const links = computed<LinkType[]>(() => {
   const list: (LinkType | undefined)[] = [
     { icon: 'ph:house-bold', url: '/', text: 'Home' },
-    user.value ? { icon: 'ph:list-bullets-bold', url: '/todolist', text: 'Todolist' } : undefined,
-    { icon: 'ph:game-controller-bold', url: '/games', text: 'Games' },
-    { icon: 'ph:egg-crack', url: '/dofus', text: 'Dofus Craft' },
-    !user.value ? { icon: 'ph:user-bold', url: '/login', text: 'login' } : { icon: 'ph:user-bold', url: '/profile', text: 'profile' },
   ]
   return list.filter(l => !!l) as LinkType[]
 })

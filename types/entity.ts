@@ -22,8 +22,3 @@ export interface LoginUser extends User {
   email: string
   roles: Array<RoleType>
 }
-
-export interface Todolist extends Identifiable {
-  checked: boolean
-  content: string
-}
