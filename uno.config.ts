@@ -21,9 +21,8 @@ export default defineConfig({
   shortcuts: [
     [/^(ph|material-symbols):([\w\-]+)$/, ([_, set, name]) => `i-${set}-${name}`],
     {
-      'content': 'container mx-auto px-8',
-      'ttt-square': 'absolute inset-0 b-[0,white] m-auto size-2 bg-white round transition-all-500 no-content',
-      'card': 'relative rounded b-1 b-solid bg-dark px-4 b-light/25 py-2 transition-colors-300 before:absolute,inset-0,pointer-events-none,rounded-inherit,bg-light/5,no-content,transition-colors-300',
+      content: 'container mx-auto px-8',
+      card: 'relative rounded b-1 b-solid bg-dark px-4 b-light/25 py-2 transition-colors-300 before:absolute,inset-0,pointer-events-none,rounded-inherit,bg-light/5,no-content,transition-colors-300',
     },
     [/^btn(?:-(.*))?$/, ([_, color]) => `flex gap-2 px-3 h-fit w-fit bg-${color} rounded py-0.5 b-none text-${contrast[color]}`],
     [/^([\w\-\.\/%]+,[\w\-\.\/%,]+)$/, ([_, classes]) => {

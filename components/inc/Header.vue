@@ -2,7 +2,6 @@
 import useBreakpointValue from '~/composables/useBreakpointValue'
 
 const route = useRoute()
-const { user } = useUserSession()
 
 const header = ref<HTMLDivElement>()
 const expand = ref(false)
@@ -33,9 +32,9 @@ const iconsExpand = useBreakpointValue({ md: true }, expand)
   <div class="md:w-12" />
   <div
     ref="header"
-    class="fixed z-100 w-fit h-fit rounded-br-xl b-br-[1,accent] p-2 bg-dark transition-all-300"
+    class="fixed z-100 h-fit w-fit b-br-[1,accent] rounded-br-xl bg-dark p-2 transition-all-300"
   >
-    <Click class="flex w-fit mx-auto justify-center h-8 md:mb-3 items-center font-anta" @click="() => toggleExpand()">
+    <Click class="mx-auto h-8 w-fit flex items-center justify-center font-anta md:mb-3" @click="() => toggleExpand()">
       <span class="text-accent">&lt;</span>
       <Expand horizontal :model-value="expand" :class="expand ? 'mx-1' : 'mx-0'">
         <p>Kaynooo</p>
@@ -47,7 +46,7 @@ const iconsExpand = useBreakpointValue({ md: true }, expand)
       <NuxtLink
         v-for="link in links"
         :key="link.url"
-        class="flex p-1 my-1 transition-colors-300"
+        class="my-1 flex p-1 transition-colors-300"
         :class="[
           link.url === active ? 'text-accent' : 'text-light',
         ]"

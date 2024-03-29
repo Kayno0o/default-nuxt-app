@@ -12,10 +12,10 @@ useHead({
 </script>
 
 <template>
-  <div class="grid w-full bg-dark text-light min-h-screen grid-cols-[auto_1fr] overflow-x-hidden transition-colors-300">
+  <div class="grid grid-cols-[auto_1fr] min-h-screen w-full overflow-x-hidden bg-dark text-light transition-colors-300">
     <ToastManager />
     <IncHeader />
-    <main class="content mt-6 py-8 md:mt-0">
+    <main class="mt-6 py-8 content md:mt-0">
       <slot />
     </main>
   </div>

@@ -20,5 +20,5 @@ export interface LoginResponse {
 
 export interface LoginUser extends User {
   email: string
-  roles: Array<RoleType>
+  roles: RoleType[]
 }

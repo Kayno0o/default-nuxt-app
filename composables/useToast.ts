@@ -1,7 +1,7 @@
 import type { Toast, ToastType } from '~/types/toast'
 
 export default function useToast() {
-  const toasts = useState<Array<Toast>>('toasts', () => [])
+  const toasts = useState<Toast[]>('toasts', () => [])
 
   function addToast(message: string, type: ToastType) {
     const id = (Math.random() + 1).toString(36).substring(7)
