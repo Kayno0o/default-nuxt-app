@@ -1,5 +1,3 @@
-import { joinURL } from 'ufo'
-import type { NitroFetchRequest } from 'nitropack'
 import type { FetchContext, FetchOptions, FetchResponse } from 'ofetch'
 import type { UseFetchOptions } from '#app'
 import type { KeysOf } from '#app/composables/asyncData'
@@ -20,8 +18,6 @@ export interface ResponseHandlerProps<T, U extends ResponseError = ResponseError
   loading?: Ref<boolean>
   skipProxy?: boolean
 }
-
-type FetchMethods = 'POST' | 'PUT' | 'DELETE' | 'PATCH' | 'GET' | 'HEAD' | 'CONNECT' | 'OPTIONS' | 'TRACE'
 
 type FetchType = 'useFetch' | '$fetch'
 /** depending on the fetch type, return the correct options */
@@ -95,27 +91,8 @@ export default defineNuxtPlugin(() => {
     }
   }
 
-  function api<Input = any>(
-    url: NitroFetchRequest,
-    options: FetchOptions & { method: FetchMethods },
-    handler?: Parameters<typeof fetchHandler<Input, Input, '$fetch'>>[0],
-  ) {
-    handler ??= {}
-    handler.skipProxy ??= true
-
-    if (handler.skipProxy) {
-      url = String(unref(url))
-      const { public: { apiUrl } } = useRuntimeConfig()
-      if (!url.startsWith('http'))
-        url = joinURL(apiUrl, url)
-    }
-
-    return $fetch<Input>(url, { ...fetchHandler<Input, Input, '$fetch'>(handler), ...options })
-  }
-
   return {
     provide: {
-      api,
       fetchHandler,
     },
   }
