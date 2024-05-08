@@ -46,6 +46,7 @@
     "*": "eslint --fix"
   },
   "dependencies": {
+    "@iconify/types": "^2.0.0",
     "@kaynooo/js-utils": "^1.1.5"
   }
 }

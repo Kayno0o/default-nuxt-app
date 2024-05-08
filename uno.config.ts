@@ -1,3 +1,4 @@
+import type { IconifyJSON } from '@iconify/types'
 import { defineConfig, presetIcons, presetUno } from 'unocss'
 
 const positions = {
@@ -76,8 +77,8 @@ export default defineConfig({
     presetUno(),
     presetIcons({
       collections: {
-        'ph': () => import('@iconify-json/ph/icons.json').then(i => i.default),
-        'material-symbols': () => import('@iconify-json/material-symbols/icons.json').then(i => i.default),
+        'ph': () => import('@iconify-json/ph/icons.json').then(i => i.default as IconifyJSON),
+        'material-symbols': () => import('@iconify-json/material-symbols/icons.json').then(i => i.default as IconifyJSON),
       },
     }),
   ],
