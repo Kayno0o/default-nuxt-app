@@ -41,7 +41,7 @@ export default defineNuxtPlugin(() => {
     }, {
       skipProxy: false,
       loading,
-      errorMessage: 'Identifiants incorrects',
+      toastErrorMessage: 'Identifiants incorrects',
       onSuccess() {
         let path = '/'
         if (typeof route.value.query.redirect === 'string')

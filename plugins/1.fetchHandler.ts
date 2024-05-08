@@ -7,9 +7,9 @@ interface ResponseError {
 }
 
 export interface ResponseHandlerProps<T, U extends ResponseError = ResponseError> {
-  errorMessage?: string
+  toastErrorMessage?: string
+  toastSuccessMessage?: string
   defaultResponseError?: string
-  successMessage?: string
   onSuccess?: (response: FetchResponse<T>) => Promise<void> | void
   onError?: (error: Error, response: FetchResponse<U>) => Promise<void> | void
   onFinally?: () => Promise<void> | void
@@ -49,8 +49,8 @@ export default defineNuxtPlugin(() => {
       async onResponse({ response, error }: FetchContext & { response: FetchResponse<T> }): Promise<void> {
         try {
           if (response.status >= 200 && response.status < 300) {
-            if (props.successMessage)
-              addToast(props.successMessage, 'success')
+            if (props.toastSuccessMessage)
+              addToast(props.toastSuccessMessage, 'success')
 
             if (props.onSuccess)
               await props.onSuccess(response)
@@ -69,8 +69,8 @@ export default defineNuxtPlugin(() => {
             if (!error)
               error = new Error(response._data?.error ?? props.defaultResponseError ?? 'Erreur inconnue')
 
-            if (props.errorMessage)
-              addToast(props.errorMessage.replaceAll('{status}', String(response.status)).replaceAll('{error}', error.message), 'error')
+            if (props.toastErrorMessage)
+              addToast(props.toastErrorMessage.replaceAll('{status}', String(response.status)).replaceAll('{error}', error.message), 'error')
 
             if (props.onError)
               await props.onError(error, response)
