@@ -29,7 +29,7 @@ export default defineNuxtPlugin(() => {
     })
   }
 
-  async function login(credentials: { email: string, password: string }, loading: Ref<boolean>) {
+  async function login(credentials: { email: string, password: string }, loading?: Ref<boolean>) {
     const { $api } = useNuxtApp()
 
     await $api('/api/auth/login', {

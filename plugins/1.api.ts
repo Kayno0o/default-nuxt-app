@@ -17,7 +17,7 @@ export interface ResponseHandlerProps<T, U extends ResponseError = ResponseError
   onFinally?: () => Promise<void> | void
   resolve?: () => void
   reject?: (e: Error) => void
-  loading?: MaybeRef<boolean>
+  loading?: Ref<boolean>
   skipProxy?: boolean
 }
 
@@ -39,8 +39,8 @@ export default defineNuxtPlugin(() => {
   function fetchHandler<T = any, U = T, F extends FetchType = 'useFetch'>(props: ResponseHandlerProps<T>): FetchHandlerResponse<T, U, F> {
     return {
       onRequest({ options }: FetchContext): Promise<void> | void {
-        if ('loading' in props)
-          typeof props.loading === 'object' ? props.loading.value = true : props.loading = true
+        if (props.loading)
+          props.loading.value = true
 
         if (options.method === 'DELETE' || props.skipProxy) {
           options.headers ||= {}
@@ -88,8 +88,8 @@ export default defineNuxtPlugin(() => {
           if (props.onFinally)
             await props.onFinally()
 
-          if ('loading' in props)
-            typeof props.loading === 'object' ? props.loading.value = false : props.loading = false
+          if (props.loading)
+            props.loading.value = false
         }
       },
     }
