@@ -9,8 +9,8 @@ dependencies:
     specifier: ^2.0.0
     version: 2.0.0
   '@kaynooo/js-utils':
-    specifier: ^1.1.5
-    version: 1.1.5(typescript@5.4.5)
+    specifier: ^1.1.7
+    version: 1.1.7(typescript@5.4.5)
 
 devDependencies:
   '@antfu/eslint-config':
@@ -1017,8 +1017,8 @@ packages:
       type-detect: 4.0.8
     dev: true
 
-  /@kaynooo/js-utils@1.1.5(typescript@5.4.5):
-    resolution: {integrity: sha512-6+dUcn6VT0BITIlKDeoOK8SfcK6Qh3d/NYftfToeFVBZE0CuDssz2BX+JOtTbozWDDziqGKmhMGA8HgWE/gKCQ==}
+  /@kaynooo/js-utils@1.1.7(typescript@5.4.5):
+    resolution: {integrity: sha512-P7LaLBsWPwoIqZ9rrktfnWETBXslhw9udZA1gZFoy76voxdWXeXwhO+3bvCOaULZQllk9lem/RRnkCQ08XBPiQ==}
     peerDependencies:
       typescript: ^5.0.0
     dependencies:

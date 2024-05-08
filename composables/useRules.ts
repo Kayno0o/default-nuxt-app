@@ -1,10 +1,11 @@
+import type { RuleFunction, RulesName } from '@kaynooo/js-utils'
+import { rules } from '@kaynooo/js-utils'
+
 export default function useRules<T>(
   value: Ref<T>,
   propsRules: ComputedRef<(RulesName<T> | RuleFunction<T>)[] | undefined>,
   required?: ComputedRef<boolean>,
 ) {
-  const rules = getRules()
-
   const rulesFn = computed(() => {
     const rulesFn = (propsRules.value || []).map(r => (typeof r === 'string' ? rules[r] : r) as RuleFunction<T>)
     if (required?.value)
@@ -15,7 +16,6 @@ export default function useRules<T>(
   const errorString = computed(() => errors.value.filter(error => typeof error === 'string')[0])
 
   return {
-    rules,
     errors,
     errorString,
   }
