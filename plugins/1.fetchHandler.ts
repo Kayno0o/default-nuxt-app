@@ -8,7 +8,7 @@ interface ResponseError {
 
 export interface ResponseHandlerProps<T, U extends ResponseError = ResponseError> {
   errorMessage?: string
-  defaultError?: string
+  defaultResponseError?: string
   successMessage?: string
   onSuccess?: (response: FetchResponse<T>) => Promise<void> | void
   onError?: (error: Error, response: FetchResponse<U>) => Promise<void> | void
@@ -67,7 +67,7 @@ export default defineNuxtPlugin(() => {
 
             // TODO i18n
             if (!error)
-              error = new Error(response._data?.['hydra:description'] ?? response._data?.error ?? props.defaultError ?? 'Erreur inconnue')
+              error = new Error(response._data?.error ?? props.defaultResponseError ?? 'Erreur inconnue')
 
             if (props.errorMessage)
               addToast(props.errorMessage.replaceAll('{status}', String(response.status)).replaceAll('{error}', error.message), 'error')
