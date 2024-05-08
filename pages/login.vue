@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { addToast } = useToast()
+const { $auth: { login } } = useNuxtApp()
 
 const rules = getRules()
 
@@ -9,22 +9,8 @@ const credentials = ref({
   password: '',
 })
 
-async function login() {
-  await $api('/api/auth/login', {
-    method: 'POST',
-    body: {
-      email: credentials.value.email,
-      password: credentials.value.password,
-    },
-  }, {
-    loading,
-    onSuccess() {
-      navigateTo({ path: '/profile' }, { external: true })
-    },
-    onError: (e, res) => {
-      addToast(res._data.error, 'error')
-    },
-  })
+async function onSubmit() {
+  await login(credentials.value, loading)
 }
 </script>
 
@@ -33,7 +19,7 @@ async function login() {
     <BaseH1 class="text-center">
       Login
     </BaseH1>
-    <form class="grid mx-auto mt-12 max-w-sm gap-6" @submit.prevent="login">
+    <form class="grid mx-auto mt-12 max-w-sm gap-6" @submit.prevent="onSubmit">
       <BaseInput
         id="email"
         v-model="credentials.email"

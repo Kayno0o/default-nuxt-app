@@ -1,14 +1,15 @@
 <script setup lang="ts" generic="T extends string | number | undefined | null">
-import type { InputAutocompleteType } from '~/types/input'
+import type { InputAccept, InputAutocompleteType, InputType } from '@kaynooo/js-utils'
 
 const props = defineProps<{
   id: string
   label?: string
-  type?: HTMLInputElement['type']
+  type?: InputType
   autocomplete?: InputAutocompleteType
   rules?: (RulesName<T> | RuleFunction<T>)[]
   required?: boolean
   small?: boolean
+  accept?: InputAccept
 }>()
 
 const modelValue = defineModel<T>({ default: () => null })

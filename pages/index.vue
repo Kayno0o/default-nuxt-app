@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { getRandomElement } from '@kaynooo/js-utils'
 import useToast from '~/composables/useToast'
-import getRandom from '~/utils/getRandom'
 
 const { addToast } = useToast()
 
@@ -14,7 +14,7 @@ const input = ref('')
 
     <div class="flex flex-col items-center gap-2 card">
       Simple card
-      <Click class="btn-accent" @click="addToast('test', getRandom(['success', 'warning', 'error']))">
+      <Click class="btn-accent" @click="addToast('test', getRandomElement(['success', 'warning', 'error']))">
         Toast
       </Click>
     </div>
