@@ -6,10 +6,24 @@ function toggleTheme() {
 </script>
 
 <template>
-  <BaseButton class="size-6 p-1 font-title" rounded @click="toggleTheme">
+  <Click
+    class="m-0.5 mt-4 size-7 bg-accent p-1.5 round"
+    aria-label="Dark or Light theme toggle"
+    @click="toggleTheme"
+  >
     <div class="relative size-full">
-      <div class="i-ph-moon-bold absolute inset-0 size-full rotate-180 opacity-0 transition-all duration-300 dark:rotate-0 dark:opacity-100" />
-      <div class="i-ph-sun-bold absolute inset-0 size-full rotate-0 opacity-100 transition-all duration-300 dark:-rotate-180 dark:opacity-0" />
+      <div
+        class="ph:moon-bold absolute inset-0 size-full text-dark transition-all-300"
+        :class="[
+          theme === 'dark' ? 'rotate-0 op100' : 'rotate-180 op0',
+        ]"
+      />
+      <div
+        class="ph:sun-bold absolute inset-0 size-full text-dark transition-all-300"
+        :class="[
+          theme === 'dark' ? '-rotate-180 op0' : 'rotate-0 op100',
+        ]"
+      />
     </div>
-  </BaseButton>
+  </Click>
 </template>

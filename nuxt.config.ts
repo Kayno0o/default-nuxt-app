@@ -3,19 +3,20 @@ export default defineNuxtConfig({
 
   modules: [
     '@vueuse/nuxt',
+    '@unocss/nuxt',
+    'nuxt-auth-utils',
   ],
 
-  css: ['~/assets/css/main.css'],
-
-  postcss: {
-    plugins: {
-      tailwindcss: {},
-      autoprefixer: {},
-    },
-  },
+  css: [
+    '@unocss/reset/tailwind.css',
+    '~/assets/css/main.css',
+  ],
 
   runtimeConfig: {
-    apiUrl: process.env.API_URL,
+    public: {
+      baseApiUrl: process.env.BASE_API_URL,
+      apiUrl: process.env.API_URL,
+    },
   },
 
   app: {
@@ -30,4 +31,6 @@ export default defineNuxtConfig({
       ],
     },
   },
+
+  compatibilityDate: '2024-10-08',
 })

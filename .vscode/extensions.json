@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "humao.rest-client",
+    "formulahendry.auto-rename-tag",
+    "formulahendry.auto-close-tag",
+    "vue.volar",
+    "dbaeumer.vscode-eslint",
+    "antfu.goto-alias"
+  ]
+}

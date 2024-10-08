@@ -4,7 +4,7 @@ const show = defineModel<boolean>({ default: () => false })
 const url = useBrowserLocation()
 const source = 'kaynoooxyz_linktree_profile_share'
 
-const shareLinks: Array<{ icon: string, link: string, name: string }> = [
+const shareLinks: { icon: string, link: string, name: string }[] = [
   {
     icon: 'i-ri-facebook-fill',
     link: `https://www.facebook.com/sharer.php?u=${url.value.href}?utm_source=${source}`,
@@ -52,7 +52,7 @@ function close() {
     @keyup.enter="close"
   >
     <div
-      class="relative mx-6 w-full max-w-md cursor-default rounded-md bg-dark px-6 py-4 text-light"
+      class="relative mx-6 max-w-md w-full cursor-default rounded-md bg-dark px-6 py-4 text-light"
       role="button"
       tabindex="0"
       @click.stop

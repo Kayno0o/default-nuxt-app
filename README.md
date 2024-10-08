@@ -1,6 +1,17 @@
-# Nuxt 3 Minimal Starter
+# Nuxt 3 Starter Project
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+[Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction)
+
+## Includes
+
+- Login / auth setup, with isGranted function and middleware
+- Complete ESlint config with precommit fixes
+- PopperJS
+- Toast notifications
+- Accessibility "click" element, input (with rules)
+- UnoCSS with shortcuts, rules and icons
+- Lots of utils functions and composables
+- VueUse
 
 ## Setup
 

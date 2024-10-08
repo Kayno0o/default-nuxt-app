@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import useToast from '~/composables/useToast'
-import getRandom from '~/utils/getRandom'
+import { getRandomElement } from '@kaynooo/utils'
 
-const { addToast } = useToast()
+const { addToast } = useToasts()
+
+const input = ref('')
 </script>
 
 <template>
-  <BaseH1>Welcome to my portfolio</BaseH1>
-  <BaseH2>Welcome to my portfolio</BaseH2>
-  <BaseH3>Welcome to my portfolio</BaseH3>
-  <BaseH4>Welcome to my portfolio</BaseH4>
+  <div class="flex items-center gap-4">
+    Lorem ipsum.
+    <BaseInput id="input" v-model="input" label="Nice label" />
 
-  <BaseCard class="flex w-fit flex-col items-center gap-2">
-    Simple card
-    <BaseButton @click="addToast('test', getRandom(['success', 'warning', 'error']))">
-      Toast
-    </BaseButton>
-  </BaseCard>
+    <div class="flex flex-col items-center gap-2 card">
+      Simple card
+      <Click class="btn-accent" @click="addToast('test', getRandomElement(['success', 'warning', 'error']))">
+        Toast
+      </Click>
+    </div>
+  </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type ClassNameValue, twMerge } from 'tailwind-merge'
+import type { ClassNameValue } from 'tailwind-merge'
 
 defineProps<{
   class?: ClassNameValue
@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-  <h1 :class="twMerge('mb-3 text-3xl font-black', $props.class)">
+  <h2 class="mb-3 text-2xl font-black">
     <slot />
-  </h1>
+  </h2>
 </template>
